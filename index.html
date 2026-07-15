@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>NutriAlfaro — Despensa Familiar Alfaro Sánchez</title>
+  <title>NutriAlfaro — La Despensa de María Nuri</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥑</text></svg>">
   <style>
     :root {
@@ -23,6 +23,7 @@
       --danger: #ff3b30;
       --chef: #af52de;
       --family: #ff2d55;
+      --warm: #ff9500;
       --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       --radius-sm: 6px;
       --radius-md: 10px;
@@ -49,21 +50,22 @@
         --danger: #ff453a;
         --chef: #bf5af2;
         --family: #ff375f;
+        --warm: #ff9f0a;
       }
     }
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body { font-family: var(--font); background: var(--bg); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; }
-    .app { max-width: 480px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 80px; }
+    .app { max-width: 480px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 100px; }
 
     /* Header */
-    .header { padding: 20px 16px 12px; text-align: center; position: sticky; top: 0; background: var(--bg); z-index: 10; backdrop-filter: blur(20px); }
-    .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-    .header p { font-size: 13px; color: var(--text-tertiary); margin-top: 2px; }
-    .family-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 14px; border-radius: 999px; background: var(--surface-raised); border: 1px solid var(--border); font-size: 12px; font-weight: 600; color: var(--text-secondary); }
-    .chef-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; padding: 4px 12px; border-radius: 999px; background: rgba(175,82,222,0.1); border: 1px solid rgba(175,82,222,0.2); font-size: 11px; font-weight: 600; color: var(--chef); }
+    .header { padding: 16px; text-align: center; position: sticky; top: 0; background: var(--bg); z-index: 10; backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+    .header p { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .family-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; padding: 5px 14px; border-radius: 999px; background: var(--surface-raised); border: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--text-secondary); }
+    .chef-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 5px; padding: 4px 12px; border-radius: 999px; background: rgba(175,82,222,0.1); border: 1px solid rgba(175,82,222,0.2); font-size: 11px; font-weight: 600; color: var(--chef); }
 
     /* Tabs */
-    .tabs { display: flex; gap: 4px; padding: 8px 12px; position: sticky; top: 70px; background: var(--bg); z-index: 10; }
+    .tabs { display: flex; gap: 4px; padding: 8px 12px; position: sticky; top: 0; background: var(--bg); z-index: 10; border-bottom: 1px solid var(--border); }
     .tab { flex: 1; padding: 10px 4px; border-radius: var(--radius-md); border: none; background: transparent; font-size: 12px; font-weight: 600; color: var(--text-tertiary); cursor: pointer; transition: all 0.2s; position: relative; font-family: inherit; }
     .tab.active { background: var(--surface-raised); color: var(--text-primary); box-shadow: var(--shadow); }
     .tab-badge { position: absolute; top: 2px; right: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--danger); color: white; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
@@ -78,16 +80,15 @@
     .health-bar-bg { height: 10px; background: var(--surface-muted); border-radius: 5px; overflow: hidden; margin: 10px 0; }
     .health-bar-fill { height: 100%; border-radius: 5px; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-    .stat-box { background: var(--surface-raised); border-radius: var(--radius-lg); padding: 16px 8px; text-align: center; border: 1px solid var(--border); transition: transform 0.2s; }
+    .stat-box { background: var(--surface-raised); border-radius: var(--radius-lg); padding: 14px 6px; text-align: center; border: 1px solid var(--border); transition: transform 0.2s; }
     .stat-box:active { transform: scale(0.97); }
-    .stat-value { font-size: 26px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; line-height: 1; }
+    .stat-value { font-size: 24px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; line-height: 1; }
     .stat-label { font-size: 11px; color: var(--text-tertiary); margin-top: 6px; font-weight: 500; }
     .critical-alert { background: var(--surface-raised); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; transition: all 0.2s; }
     .critical-alert:active { transform: scale(0.98); }
     .critical-alert.danger { border-color: var(--danger); background: rgba(255,59,48,0.06); }
     .critical-alert.warning { border-color: var(--warning); background: rgba(255,149,0,0.06); }
     .critical-alert.success { border-color: var(--positive); background: rgba(52,199,89,0.06); }
-    .critical-alert.chef { border-color: var(--chef); background: rgba(175,82,222,0.06); }
     .critical-alert span { font-size: 24px; flex-shrink: 0; }
     .critical-alert div { font-size: 14px; font-weight: 600; color: var(--text-primary); }
     .critical-alert small { font-size: 12px; color: var(--text-tertiary); font-weight: 400; }
@@ -111,14 +112,13 @@
     .status-ok { background: var(--positive); }
     .status-bajo { background: var(--warning); }
     .status-agotado { background: var(--danger); }
-    .product-actions { display: flex; justify-content: center; gap: 6px; margin-top: 8px; opacity: 0; transition: opacity 0.2s; }
-    .product-card:hover .product-actions, .product-card:focus-within .product-actions { opacity: 1; }
+    .product-actions { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
     .btn-icon { width: 28px; height: 28px; border-radius: 8px; border: none; background: var(--surface-muted); cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; color: var(--text-primary); font-family: inherit; }
     .btn-icon:active { transform: scale(0.85); }
     .btn-icon:hover { background: var(--surface-strong); }
     .btn-cart { background: rgba(0,122,255,0.12); color: var(--accent); }
-    .btn-cart:hover { background: rgba(0,122,255,0.2); }
     .btn-danger { background: rgba(255,59,48,0.1); color: var(--danger); }
+    .btn-reset { background: rgba(255,149,0,0.1); color: var(--warning); }
 
     /* Shopping List */
     .shop-item { display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--surface-raised); border-radius: var(--radius-lg); margin-bottom: 8px; transition: all 0.2s; border: 1px solid var(--border); touch-action: manipulation; }
@@ -135,9 +135,12 @@
     .priority-normal { background: var(--surface-muted); color: var(--text-tertiary); }
     .btn-share { width: 100%; padding: 16px; border-radius: var(--radius-lg); border: none; background: var(--text-primary); color: var(--bg); font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; }
     .btn-share:active { transform: scale(0.97); opacity: 0.9; }
-    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-tertiary); }
+    .btn-reset-month { width: 100%; padding: 14px; border-radius: var(--radius-lg); border: 1px solid var(--danger); background: transparent; color: var(--danger); font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; }
+    .btn-reset-month:active { background: rgba(255,59,48,0.06); }
+    .empty-state { text-align: center; padding: 50px 20px; color: var(--text-tertiary); }
     .empty-state span { font-size: 48px; display: block; margin-bottom: 12px; }
     .empty-state p { font-size: 15px; font-weight: 500; line-height: 1.5; }
+    .empty-state small { font-size: 12px; color: var(--text-quaternary); display: block; margin-top: 8px; }
 
     /* Recipes */
     .recipe-card { background: var(--surface-raised); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; border: 1px solid var(--border); border-left: 4px solid var(--positive); touch-action: manipulation; }
@@ -145,12 +148,14 @@
     .recipe-card:hover { box-shadow: var(--shadow); }
     .recipe-card.chef-pick { border-left-color: var(--chef); }
     .recipe-card.family-fav { border-left-color: var(--family); }
-    .recipe-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .recipe-card.colombia { border-left-color: var(--warm); }
+    .recipe-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .recipe-title { font-size: 16px; font-weight: 700; color: var(--text-primary); }
     .recipe-badge { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
     .badge-chef { background: rgba(175,82,222,0.12); color: var(--chef); }
     .badge-family { background: rgba(255,45,85,0.12); color: var(--family); }
     .badge-healthy { background: rgba(52,199,89,0.12); color: var(--positive); }
-    .recipe-title { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+    .badge-colombia { background: rgba(255,149,0,0.12); color: var(--warm); }
     .recipe-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-top: 4px; }
     .recipe-tags { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
     .recipe-tag { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; background: var(--surface-muted); color: var(--text-secondary); }
@@ -163,9 +168,9 @@
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     /* Modals */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.2s; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.2s; overflow-y: auto; }
     .modal-overlay.show { display: flex; }
-    .modal-card { background: var(--surface); border-radius: var(--radius-xl); padding: 24px; max-width: 400px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); border: 1px solid var(--border); animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .modal-card { background: var(--surface); border-radius: var(--radius-xl); padding: 24px; max-width: 400px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); border: 1px solid var(--border); animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); margin: auto; }
     @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     .modal-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
     .modal-card .sub { font-size: 13px; color: var(--text-tertiary); margin-bottom: 20px; }
@@ -186,6 +191,14 @@
     .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; font-size: 14px; color: var(--text-secondary); font-weight: 500; cursor: pointer; }
     .checkbox-row input { width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer; }
 
+    /* Catalog Grid */
+    .catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; max-height: 300px; overflow-y: auto; padding-right: 4px; }
+    .catalog-item { background: var(--surface-raised); border-radius: var(--radius-md); padding: 10px 6px; text-align: center; cursor: pointer; border: 2px solid transparent; transition: all 0.15s; font-size: 12px; font-weight: 500; }
+    .catalog-item:hover { border-color: var(--accent); background: rgba(0,122,255,0.04); }
+    .catalog-item:active { transform: scale(0.95); }
+    .catalog-item.selected { border-color: var(--positive); background: rgba(52,199,89,0.08); }
+    .catalog-emoji { font-size: 24px; display: block; margin-bottom: 4px; }
+
     /* FAB */
     .fab { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: var(--accent); color: white; border: none; font-size: 28px; cursor: pointer; box-shadow: 0 4px 20px rgba(0,122,255,0.35); z-index: 100; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; justify-content: center; font-weight: 300; font-family: inherit; }
     .fab:active { transform: scale(0.88); }
@@ -195,7 +208,27 @@
     .confetti { position: fixed; pointer-events: none; z-index: 3000; width: 10px; height: 10px; border-radius: 50%; animation: confetti-fall 1s ease-out forwards; }
     @keyframes confetti-fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(200px) rotate(720deg); opacity: 0; } }
 
-    .drag-hint { text-align: center; font-size: 11px; color: var(--text-quaternary); margin-top: 8px; font-weight: 500; }
+    /* Welcome / Motivational overlay */
+    .welcome-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .welcome-overlay.show { display: flex; }
+    .welcome-card { background: var(--surface); border-radius: var(--radius-xl); padding: 32px 24px; max-width: 380px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); border: 1px solid var(--border); animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .welcome-emoji { font-size: 56px; margin-bottom: 12px; display: block; }
+    .welcome-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+    .welcome-msg { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; }
+    .welcome-from { font-size: 13px; color: var(--text-tertiary); font-weight: 600; margin-bottom: 20px; }
+    .btn-welcome { padding: 14px 32px; border-radius: var(--radius-md); border: none; background: var(--accent); color: white; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+    .btn-welcome:active { transform: scale(0.97); }
+
+    /* Help section */
+    .help-section { background: var(--surface-raised); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); }
+    .help-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .help-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .help-text strong { color: var(--text-primary); }
+
+    /* Quick actions row */
+    .quick-actions { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
+    .quick-btn { flex-shrink: 0; padding: 10px 16px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--surface-raised); color: var(--text-primary); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; display: flex; align-items: center; gap: 6px; }
+    .quick-btn:active { transform: scale(0.95); background: var(--surface-muted); }
 
     @media (min-width: 768px) { .app { max-width: 520px; } .product-grid { grid-template-columns: repeat(4, 1fr); } }
   </style>
@@ -205,15 +238,15 @@
   <div class="app" id="app">
     <div class="header">
       <h1>🥑 NutriAlfaro</h1>
-      <p>La despensa saludable de tu familia</p>
-      <div class="family-badge">👨‍👩‍👧‍👦 Familia Alfaro Sánchez • 4 miembros</div>
-      <div class="chef-badge">👩‍🍳 Chef María Nuri Sánchez • Cabeza del hogar</div>
+      <p>La despensa de María Nuri</p>
+      <div class="family-badge">👨‍👩‍👧‍👦 Familia Alfaro Sánchez</div>
+      <div class="chef-badge">👩‍🍳 María Nuri Sánchez — Chef de la casa</div>
     </div>
 
     <div class="tabs">
-      <button class="tab active" onclick="showView('dashboard')" id="tab-dashboard">📊 Dashboard</button>
+      <button class="tab active" onclick="showView('dashboard')" id="tab-dashboard">📊 Inicio</button>
       <button class="tab" onclick="showView('despensa')" id="tab-despensa">🥘 Despensa</button>
-      <button class="tab" onclick="showView('compras')" id="tab-compras">🛒 Compras<span class="tab-badge" id="badge-compras" style="display:none">0</span></button>
+      <button class="tab" onclick="showView('compras')" id="tab-compras">🛒 Faltantes<span class="tab-badge" id="badge-compras" style="display:none">0</span></button>
       <button class="tab" onclick="showView('recetas')" id="tab-recetas">👨‍🍳 Recetas</button>
     </div>
 
@@ -221,34 +254,66 @@
     <div class="view active" id="view-dashboard">
       <div class="health-card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-          <span style="font-size:15px; font-weight:700;">Salud de la despensa</span>
-          <span style="font-size:12px; color:var(--text-tertiary); font-weight:600;" id="health-text">Excelente</span>
+          <span style="font-size:15px; font-weight:700;">🌡️ Salud de la despensa</span>
+          <span style="font-size:12px; color:var(--text-tertiary); font-weight:600;" id="health-text">Comencemos</span>
         </div>
-        <div class="health-bar-bg"><div class="health-bar-fill" id="health-bar" style="width:85%; background:var(--positive);"></div></div>
+        <div class="health-bar-bg"><div class="health-bar-fill" id="health-bar" style="width:0%; background:var(--positive);"></div></div>
         <div style="display:flex; justify-content:space-between; margin-top:12px;">
           <div style="text-align:center;"><div style="font-size:24px; font-weight:700;" id="dash-total">0</div><div style="font-size:11px; color:var(--text-tertiary); font-weight:500;">Productos</div></div>
           <div style="text-align:center;"><div style="font-size:24px; font-weight:700; color:var(--warning);" id="dash-bajos">0</div><div style="font-size:11px; color:var(--text-tertiary); font-weight:500;">Agotándose</div></div>
           <div style="text-align:center;"><div style="font-size:24px; font-weight:700; color:var(--danger);" id="dash-agotados">0</div><div style="font-size:11px; color:var(--text-tertiary); font-weight:500;">Agotados</div></div>
         </div>
       </div>
-      <div class="stats-grid">
-        <div class="stat-box"><div class="stat-value" id="dash-racha">🔥5</div><div class="stat-label">Días ordenados</div></div>
-        <div class="stat-box"><div class="stat-value" id="dash-nivel">⭐3</div><div class="stat-label">Nivel familia</div></div>
-        <div class="stat-box"><div class="stat-value" id="dash-chef">👩‍🍳12</div><div class="stat-label">Recetas María</div></div>
+
+      <div class="quick-actions">
+        <button class="quick-btn" onclick="openCatalogModal()">➕ Agregar productos</button>
+        <button class="quick-btn" onclick="openOutOfStockModal()">📋 ¿Qué se acabó?</button>
+        <button class="quick-btn" onclick="showView('recetas')">👨‍🍳 Ver recetas</button>
       </div>
+
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-value" id="dash-racha">🔥0</div><div class="stat-label">Días activa</div></div>
+        <div class="stat-box"><div class="stat-value" id="dash-nivel">⭐1</div><div class="stat-label">Nivel familia</div></div>
+        <div class="stat-box"><div class="stat-value" id="dash-chef">👩‍🍳0</div><div class="stat-label">Recetas María</div></div>
+      </div>
+
       <div id="dash-alerts"></div>
+
+      <div class="help-section">
+        <div class="help-title">💡 ¿Cómo usar NutriAlfaro?</div>
+        <div class="help-text">
+          <strong>María Nuri, esta app es para ti.</strong> Aquí puedes ver todo lo que hay en la despensa, saber qué se está acabando y qué falta comprar.<br><br>
+          <strong>🌡️ La barra verde</strong> arriba muestra qué tan completa está la despensa. Si está llena = verde, si falta mucho = roja.<br><br>
+          <strong>🥘 Despensa:</strong> Toca el botón verde "➕ Agregar productos" para decir qué compraste hoy. También puedes tocar + o − en cada producto.<br><br>
+          <strong>🛒 Faltantes:</strong> Cuando algo se acaba, aparece aquí automáticamente. También puedes tocar "📋 ¿Qué se acabó?" para marcarlo rápido.<br><br>
+          <strong>👨‍🍳 Recetas:</strong> María, aquí verás platos que puedes hacer con lo que tienes. ¡Incluye recetas colombianas!<br><br>
+          <strong>🔄 Reiniciar mes:</strong> Al final del mes, toca el botón naranja abajo para empezar de nuevo con mercado nuevo.
+        </div>
+      </div>
+
+      <button class="btn-reset-month" onclick="confirmResetMonth()">🔄 Reiniciar mes (nuevo mercado)</button>
     </div>
 
     <!-- DESPENSA -->
     <div class="view" id="view-despensa">
       <div id="despensa-content"></div>
-      <div class="drag-hint">💡 Toca cualquier producto para ver un mensaje de María Nuri</div>
+      <div class="empty-state" id="despensa-empty" style="display:none;">
+        <span>🥘</span>
+        <p>La despensa está vacía, María</p>
+        <small>Toca el botón + abajo o "Agregar productos" para empezar</small>
+      </div>
+      <div class="drag-hint" style="text-align:center; font-size:11px; color:var(--text-quaternary); margin-top:8px; font-weight:500;">💡 Toca cualquier producto para ver un mensaje de tu familia</div>
     </div>
 
-    <!-- COMPRAS -->
+    <!-- COMPRAS / FALTANTES -->
     <div class="view" id="view-compras">
+      <div class="quick-actions">
+        <button class="quick-btn" onclick="openOutOfStockModal()">📋 Marcar lo que se acabó</button>
+        <button class="quick-btn" onclick="openAddModal()">✏️ Escribir producto nuevo</button>
+      </div>
       <div id="compras-content"></div>
-      <button class="btn-share" onclick="openShareModal()" id="btn-share" style="display:none;">📤 Compartir lista de compras</button>
+      <button class="btn-share" onclick="openShareModal()" id="btn-share" style="display:none;">📤 Compartir lista con Víctor Manuel</button>
+      <button class="btn-reset-month" onclick="confirmResetMonth()">🔄 Reiniciar mes (nuevo mercado)</button>
     </div>
 
     <!-- RECETAS -->
@@ -256,27 +321,38 @@
       <div id="recetas-content"></div>
     </div>
 
-    <button class="fab" onclick="openAddModal()">+</button>
+    <button class="fab" onclick="openCatalogModal()">+</button>
   </div>
 
   <div class="toast" id="toast"></div>
+
+  <!-- WELCOME / MOTIVATIONAL MODAL -->
+  <div class="welcome-overlay" id="welcome-overlay">
+    <div class="welcome-card">
+      <span class="welcome-emoji" id="welcome-emoji">🌸</span>
+      <div class="welcome-title" id="welcome-title">¡Hola María Nuri!</div>
+      <div class="welcome-msg" id="welcome-msg"></div>
+      <div class="welcome-from" id="welcome-from"></div>
+      <button class="btn-welcome" onclick="closeWelcome()">Gracias, familia 💚</button>
+    </div>
+  </div>
 
   <!-- SHARE MODAL -->
   <div class="modal-overlay" id="modal-share" onclick="if(event.target===this)closeShareModal()">
     <div class="modal-card">
       <h2>🛒 Lista de Compras</h2>
-      <p class="sub">Familia Alfaro Sánchez — por María Nuri</p>
+      <p class="sub">Para María Nuri — Familia Alfaro Sánchez</p>
       <div class="share-preview" id="share-preview"></div>
       <button class="btn-close" onclick="closeShareModal()">Cerrar</button>
     </div>
   </div>
 
-  <!-- ADD MODAL -->
+  <!-- ADD PRODUCT MODAL -->
   <div class="modal-overlay" id="modal-add" onclick="if(event.target===this)closeAddModal()">
     <div class="modal-card" style="text-align:left;">
-      <h2 style="text-align:center;">➕ Agregar Producto</h2>
-      <p class="sub" style="text-align:center;">A la despensa de María Nuri</p>
-      <input class="input-field" id="add-nombre" placeholder="Nombre del producto (ej: Avena)" />
+      <h2 style="text-align:center;">✏️ Agregar Producto</h2>
+      <p class="sub" style="text-align:center;">Escribe lo que compraste, María</p>
+      <input class="input-field" id="add-nombre" placeholder="Nombre del producto (ej: Panela)" />
       <select class="select-field" id="add-categoria">
         <option value="esenciales">🥘 Esenciales</option>
         <option value="agua">💧 Agua</option>
@@ -291,9 +367,44 @@
         <input class="input-field" id="add-cantidad" type="number" placeholder="Cantidad" style="flex:1;" value="1" min="0" />
         <input class="input-field" id="add-unidad" placeholder="Unidad" style="flex:1;" value="pz" />
       </div>
-      <label class="checkbox-row"><input type="checkbox" id="add-esencial" /> Esencial del hogar (María Nuri lo recomienda)</label>
+      <label class="checkbox-row"><input type="checkbox" id="add-esencial" /> Esencial del hogar (no puede faltar)</label>
       <button class="btn-primary" onclick="addProduct()">Agregar a la despensa</button>
       <button class="btn-secondary" onclick="closeAddModal()">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- CATALOG MODAL -->
+  <div class="modal-overlay" id="modal-catalog" onclick="if(event.target===this)closeCatalogModal()">
+    <div class="modal-card" style="text-align:left; max-width: 420px;">
+      <h2 style="text-align:center;">📦 Catálogo de Productos</h2>
+      <p class="sub" style="text-align:center;">Toca los que compraste, María</p>
+      <div id="catalog-content"></div>
+      <button class="btn-primary" onclick="addSelectedFromCatalog()" style="margin-top:12px;">Agregar seleccionados</button>
+      <button class="btn-secondary" onclick="closeCatalogModal()">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- OUT OF STOCK MODAL -->
+  <div class="modal-overlay" id="modal-out" onclick="if(event.target===this)closeOutOfStockModal()">
+    <div class="modal-card" style="text-align:left; max-width: 420px;">
+      <h2 style="text-align:center;">📋 ¿Qué se acabó?</h2>
+      <p class="sub" style="text-align:center;">Toca lo que falta en la despensa</p>
+      <div id="outstock-content"></div>
+      <button class="btn-primary" onclick="markSelectedOutOfStock()" style="margin-top:12px;">Marcar como agotado</button>
+      <button class="btn-secondary" onclick="closeOutOfStockModal()">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- RESET CONFIRM MODAL -->
+  <div class="modal-overlay" id="modal-reset" onclick="if(event.target===this)closeResetModal()">
+    <div class="modal-card">
+      <h2>🔄 ¿Nuevo mes?</h2>
+      <p class="sub">Se borrará todo para empezar mercado nuevo</p>
+      <div style="font-size:14px; color:var(--text-secondary); margin-bottom:20px; line-height:1.5;">
+        María Nuri, esto limpiará la despensa y la lista de faltantes. ¿Quieres empezar de cero con el nuevo mercado del mes?
+      </div>
+      <button class="btn-primary" onclick="resetMonth()" style="background:var(--danger);">Sí, nuevo mercado</button>
+      <button class="btn-secondary" onclick="closeResetModal()">No, cancelar</button>
     </div>
   </div>
 
@@ -307,242 +418,419 @@ const FAMILIA = {
   apellido: "Alfaro Sánchez"
 };
 
-// ===== MENSAJES DIVERTIDOS PERSONALIZADOS =====
+// ===== MENSAJES MOTIVACIONALES PARA MARÍA / NURI =====
+const MENSAJES_MARIA = [
+  { emoji: "🌸", title: "¡Buenos días, María Nuri!", msg: "Eres el corazón de esta casa. Cada plato que preparas llena de amor a Víctor Manuel, Manuel y Víctor Hugo. ¡Gracias por ser nuestra chef favorita!", from: "Con amor, tu familia Alfaro Sánchez" },
+  { emoji: "🌟", title: "¡Nuri, eres increíble!", msg: "La casa huele a felicidad cuando tú estás en la cocina. Tu sazón es el secreto mejor guardado de la familia. ¡Nadie cocina como tú!", from: "Víctor Manuel, Manuel y Víctor Hugo 💚" },
+  { emoji: "💐", title: "¡María, te queremos!", msg: "Eres la reina de la despensa y del orden. Gracias por mantener a esta familia feliz, saludable y bien alimentada. ¡Eres nuestra superhéroina!", from: "Tu familia que te adora" },
+  { emoji: "🍳", title: "¡Chef María en acción!", msg: "Nuri, cada comida tuya es un abrazo calentito. Gracias por convertir ingredientes simples en momentos inolvidables para tu familia.", from: "Los Alfaro Sánchez te aman" },
+  { emoji: "🏠", title: "¡Hogar dulce hogar, gracias a ti!", msg: "María, tú le das el sabor a la comida y el orden a la casa. Sin ti, nada sería igual. ¡Eres el pilar de esta familia!", from: "Víctor Manuel y los niños" },
+  { emoji: "✨", title: "¡Nuri, brillas!", msg: "Tu dedicación en la cocina y tu amor en cada detalle hacen de esta casa un lugar mágico. ¡Gracias por ser la mejor mamá y esposa del mundo!", from: "Familia Alfaro Sánchez 💫" },
+  { emoji: "🌷", title: "¡María, florece!", msg: "Como las flores que cuidas, tú haces florecer a esta familia cada día. Gracias por tu paciencia, tu sazón y tu amor infinito.", from: "Víctor Manuel, Manuel y Víctor Hugo" },
+  { emoji: "🥑", title: "¡NutriAlfaro te saluda!", msg: "María Nuri, esta app es tu aliada. Aquí puedes ver todo lo que tienes, lo que falta y recetas deliciosas. ¡Tú mandas en la cocina!", from: "Tu familia te apoya siempre" }
+];
+
+// ===== MENSAJES DIVERTIDOS POR PRODUCTO =====
 const MENSAJES = {
-  "Arroz": [
-    "¡María Nuri dice: Arroz con pollo esta noche? ¡La familia lo agradecerá! 🍗",
-    "¿Un arroz frito rápido? ¡Delicia asiática aprobada por María! 🍚",
-    "Arroz = amor en cada grano, dice la chef ❤️"
-  ],
-  "Huevos": [
-    "¡María Nuri: Estos huevos quedarían espectaculares revueltos! 🍳",
-    "¿Huevos rancheros para el desayuno? ¡Manuel y Víctor Hugo los adoran! 🌮",
-    "Un huevo al día mantiene al doctor lejos... dice María Nuri 🥚"
-  ],
-  "Aceite": [
-    "Con este aceite hasta una ensalada es fiesta, dice María 🥗✨",
-    "¿Un sofrito que huela a hogar? ¡El secreto de María Nuri! 🏠",
-    "Aceite de oliva = oro líquido según la chef 🫒"
-  ],
-  "Leche": [
-    "¿Un atolito calientito? ¡María Nuri aprueba! 🥛",
-    "Leche con cereal = desayuno de campeones para Manuel y Víctor Hugo 🏆",
-    "¿Un licuado de frutas? ¡Hidratación y sabor! 🥤"
-  ],
-  "Pan": [
-    "¡Pan tostado con mantequilla nunca falla, dice María! 🍞",
-    "¿Sándwich familiar para la cena? ¡Rápido y rico! 🥪",
-    "Pan fresco = felicidad instantánea para toda la familia 😊"
-  ],
-  "Azúcar": [
-    "¿Un postrecito endulza la vida! — María Nuri 🍰",
-    "¡Azúcar para el café de Víctor Manuel! ☕",
-    "La vida es mejor con un poco de dulzura, dice la chef 🍬"
-  ],
-  "Sal": [
-    "Sin sal no hay sabor... ¡ni vida! — María Nuri 🧂",
-    "¿Unos elotes con sal y limón? ¡Delicia mexicana! 🌽",
-    "La sal es el alma de la cocina de María 👨‍🍳"
-  ],
-  "Frijoles": [
-    "¡Frijoles charros para el almuerzo familiar! 🫘",
-    "¿Unos frijoles refritos con queso? ¡Comfort food de María! 🤤",
-    "Frijoles de la olla = sabor a hogar Alfaro Sánchez 🏡"
-  ],
-  "Pasta": [
-    "¡Pasta al pesto en 15 minutos! Receta rápida de María 🍝",
-    "¿Espagueti a la boloñesa familiar? ¡Todos contentos! 🍅",
-    "Pasta rápida para días ocupados de la familia ⚡"
-  ],
-  "Garrafón": [
-    "¡Hidratación nivel Alfaro! 💧 ¿Ya tomaste agua hoy, Manuel?",
-    "Sin agua no hay fiesta... ¡ni vida! — María Nuri 💦",
-    "¡Mantén a la familia hidratada! 🌊"
-  ],
-  "Café": [
-    "¡El café huele a productividad! Perfecto para Víctor Manuel ☕",
-    "¿Un cafecito para la plática familiar? ¡María lo prepara! ☕",
-    "Café recién hecho = buenos días Alfaro Sánchez ☀️"
-  ],
-  "Pollo": [
-    "¡Pollo al horno = domingo feliz en casa! 🍗",
-    "¿Unas pechugas a la plancha sanitas? ¡María aprueba! 💪",
-    "Pollo + especias = cena ganadora para la familia 🏆"
-  ],
-  "Harina": [
-    "¡Tortillas calientitas hechas por María! 🌮",
-    "Harina para hotcakes el domingo con los niños 🥞",
-    "Con harina se hace magia en la cocina de María Nuri ✨"
-  ],
-  "Jabón": [
-    "¡Jabón fresco = casa limpia! Gracias a María 🧼",
-    "La limpieza también es amor, dice la chef 💚",
-    "Jabón de olor rico = baño spa en casa 🛁"
-  ],
-  "Papel": [
-    "¡Nunca falte el papel! María lo sabe 🧻",
-    "Papel higiénico = paz mental para la familia 🕊️",
-    "Stock de papel = familia Alfaro preparada ✅"
-  ],
-  "Tomate": [
-    "¡Tomates frescos para una salsa de María! 🍅",
-    "¿Ensalada caprese? ¡Frescura italiana aprobada! 🇮🇹",
-    "Tomate maduro = sabor intenso en cada plato 👌"
-  ],
-  "Queso": [
-    "¡Queso derretido = felicidad para Manuel y Víctor Hugo! 🧀",
-    "¿Unas quesadillas rápidas? ¡Snack perfecto de María! 🌮",
-    "Queso fresco para todo, dice la chef 🥗"
-  ],
-  "Cereal": [
-    "Cereal crujiente para empezar el día de los niños 🥣",
-    "¿Cereal con leche fría? ¡Clásico Alfaro! 🥛",
-    "Desayuno en 2 minutos = ganar tiempo para la familia ⏱️"
-  ],
-  "Avena": [
-    "¡Avena con plátano = energía para toda la mañana! 💪",
-    "María Nuri recomienda: avena para un desayuno saludable 🌾",
-    "Avena con leche y canela = amor en bowl 🥣"
-  ],
-  "Plátano": [
-    "¡Plátano maduro para licuado o pan! 🍌",
-    "Potasio natural para Víctor Manuel y los niños 💪",
-    "Plátano frito = postre rápido de María 🍌"
-  ],
-  "Manzana": [
-    "¡Una manzana al día... María lo confirma! 🍎",
-    "Manzana con canela = snack saludable para Manuel 🍎",
-    "¡Manzanas frescas para la lonchera de Víctor Hugo! 🍏"
-  ],
-  "Zanahoria": [
-    "¡Zanahoria rallada para ensalada! 🥕",
-    "Zanahoria = vista perfecta para estudiar, dice María 👀",
-    "¿Zanahoria al horno con miel? ¡Delicia saludable! 🥕"
-  ],
-  "Espinaca": [
-    "¡Espinaca = fuerza como Popeye! 💪",
-    "Espinaca salteada con ajo, receta secreta de María 🥬",
-    "Verde es vida, dice la chef Nuri 🌿"
-  ],
-  "Broccoli": [
-    "¡Broccoli al vapor con limón! Saludable y rico 🥦",
-    "Broccoli = superalimento para la familia Alfaro 🥦",
-    "María dice: ¡Nunca falte el verde en el plato! 🌱"
-  ],
-  "Pescado": [
-    "¡Pescado a la plancha = omega-3 para todos! 🐟",
-    "Pescado con limón y cilantro, especialidad de María 🐠",
-    "Proteína magra para una familia activa 💪"
-  ],
-  "Atún": [
-    "¡Atún con aguacate = comida rápida y saludable! 🥑",
-    "Atún en ensalada = almuerzo ligero de María 🥗",
-    "Proteína de lata para días ocupados 🐟"
-  ],
-  "Yogurt": [
-    "¡Yogurt natural con fruta = desayuno perfecto! 🥛",
-    "Probióticos para la digestión de toda la familia 🦠",
-    "Yogurt griego = proteína extra, dice María 💪"
-  ],
-  "Miel": [
-    "¡Miel natural para endulzar sin culpa! 🍯",
-    "Miel con limón = remedio de la abuela María 🍋",
-    "Endulzante natural aprobado por la chef 🐝"
-  ],
-  "Aguacate": [
-    "¡Aguacate = oro verde mexicano! 🥑",
-    "Guacamole rápido para la tarde con los niños 🥑",
-    "Grasas buenas para el cerebro, dice María Nuri 🧠"
-  ],
-  "Limón": [
-    "¡Limón para todo! Salsas, agua, pescado... 🍋",
-    "Vitamina C natural para la familia Alfaro 🍋",
-    "Un toque de limón = magia en la cocina ✨"
-  ],
-  "Cebolla": [
-    "¡Cebolla caramelizada = sabor extra! 🧅",
-    "Sin cebolla no hay salsa, dice María Nuri 🧅",
-    "Cebolla morada para ensaladas frescas 🥗"
-  ],
-  "Ajo": [
-    "¡Ajo = sabor y salud en cada diente! 🧄",
-    "Ajo asado = untable divino, dice la chef 🧄",
-    "Inmune system boost para la familia 💪"
-  ],
-  "Pepino": [
-    "¡Pepino fresco = hidratación crunch! 🥒",
-    "Agua de pepino con limón, bebida de María 🥒",
-    "Pepino en ensalada = frescura garantizada 🥗"
-  ],
-  "Fresa": [
-    "¡Fresas con crema = postre clásico! 🍓",
-    "Fresas frescas para licuado de los niños 🍓",
-    "Antioxidantes naturales en cada bocado 🍓"
-  ],
-  "Sandía": [
-    "¡Sandía fría para el calor! 🍉",
-    "Sandía con limón y chile = tradición mexicana 🍉",
-    "Hidratación dulce para Manuel y Víctor Hugo 🍉"
-  ],
-  "Naranja": [
-    "¡Jugo de naranja natural para el desayuno! 🍊",
-    "Vitamina C para no enfermarse, dice María 🍊",
-    "Naranjas frescas = energía mañanera ☀️"
-  ],
-  "Papa": [
-    "¡Papas al horno con romero! 🥔",
-    "Papa cocida para ensalada rusa de María 🥔",
-    "El carbohidrato que nunca falla en casa 🥔"
-  ],
-  "Camote": [
-    "¡Camote al horno = dulzura natural! 🍠",
-    "Camote = superalimento azteca, dice María 🍠",
-    "Fibras y vitaminas para toda la familia 🍠"
-  ],
-  "Lentejas": [
-    "¡Lentejas = proteína vegetal barata! 🫘",
-    "Sopa de lentejas para días fríos, receta de María 🍲",
-    "Lentejas con arroz = comida completa 🫘"
-  ],
-  "Quinoa": [
-    "¡Quinoa = proteína completa vegetal! 🌾",
-    "Quinoa con verduras, plato estrella de María 🥗",
-    "Grano ancestral para una familia moderna 🌾"
-  ],
-  "Garbanzo": [
-    "¡Garbanzos para hummus casero! 🫘",
-    "Garbanzos en caldo = comfort food saludable 🍲",
-    "Proteína y fibra en cada cucharada 🫘"
-  ],
-  "Almendra": [
-    "¡Almendras = snack inteligente! 🥜",
-    "Leche de almendra casera, idea de María 🥛",
-    "Grasas buenas para el corazón ❤️"
-  ],
-  "Chía": [
-    "¡Chía en agua = hidratación superpoder! 🌱",
-    "Pudín de chía con leche, postre saludable de María 🥣",
-    "Omega-3 vegetal para toda la familia 🌱"
-  ],
-  "Cloro": [
-    "¡Cloro = casa desinfectada! 🧴",
-    "Limpieza profunda para la familia Alfaro 🧼",
-    "Hogar limpio = familia sana 🏠"
-  ],
-  "Detergente": [
-    "¡Ropa limpia y fresca! 👕",
-    "Detergente ecológico, recomendación de María 🌿",
-    "La ropa limpia también es amor 💚"
-  ],
-  "Cloro": [
-    "¡Cloro para desinfectar todo! 🧴",
-    "Hogar limpio = familia sana Alfaro 🏠",
-    "Desinfección semanal recomendada por María 🧼"
-  ]
+  "Arroz": ["¡María, arroz con pollo esta noche? ¡La familia lo agradecerá! 🍗", "¿Un arroz frito rápido? ¡Delicia aprobada por Nuri! 🍚", "Arroz = amor en cada grano, dice la chef ❤️"],
+  "Huevos": ["¡María, estos huevos quedarían espectaculares revueltos! 🍳", "¿Huevos rancheros para el desayuno? ¡Manuel y Víctor Hugo los adoran! 🌮", "Un huevo al día mantiene al doctor lejos... dice Nuri 🥚"],
+  "Aceite": ["Con este aceite hasta una ensalada es fiesta, dice María 🥗✨", "¿Un sofrito que huela a hogar? ¡El secreto de Nuri! 🏠", "Aceite de oliva = oro líquido según la chef 🫒"],
+  "Leche": ["¿Un atolito calientito? ¡María Nuri aprueba! 🥛", "Leche con cereal = desayuno de campeones para los niños 🏆", "¿Un licuado de frutas? ¡Hidratación y sabor! 🥤"],
+  "Pan": ["¡Pan tostado con mantequilla nunca falla, dice María! 🍞", "¿Sándwich familiar para la cena? ¡Rápido y rico! 🥪", "Pan fresco = felicidad instantánea para toda la familia 😊"],
+  "Azúcar": ["¿Un postrecito endulza la vida! — María Nuri 🍰", "¡Azúcar para el café de Víctor Manuel! ☕", "La vida es mejor con un poco de dulzura, dice la chef 🍬"],
+  "Sal": ["Sin sal no hay sabor... ¡ni vida! — Nuri 🧂", "¿Unos elotes con sal y limón? ¡Delicia! 🌽", "La sal es el alma de la cocina de María 👨‍🍳"],
+  "Frijoles": ["¡Frijoles charros para el almuerzo familiar! 🫘", "¿Unos frijoles refritos con queso? ¡Comfort food de Nuri! 🤤", "Frijoles de la olla = sabor a hogar Alfaro Sánchez 🏡"],
+  "Pasta": ["¡Pasta al pesto en 15 minutos! Receta rápida de María 🍝", "¿Espagueti a la boloñesa familiar? ¡Todos contentos! 🍅", "Pasta rápida para días ocupados de la familia ⚡"],
+  "Garrafón": ["¡Hidratación nivel Alfaro! 💧 ¿Ya tomaste agua hoy, Manuel?", "Sin agua no hay fiesta... ¡ni vida! — María Nuri 💦", "¡Mantén a la familia hidratada! 🌊"],
+  "Café": ["¡El café huele a productividad! Perfecto para Víctor Manuel ☕", "¿Un cafecito para la plática familiar? ¡María lo prepara! ☕", "Café recién hecho = buenos días Alfaro Sánchez ☀️"],
+  "Pollo": ["¡Pollo al horno = domingo feliz en casa! 🍗", "¿Unas pechugas a la plancha sanitas? ¡María aprueba! 💪", "Pollo + especias = cena ganadora para la familia 🏆"],
+  "Harina": ["¡Tortillas calientitas hechas por Nuri! 🌮", "Harina para hotcakes el domingo con los niños 🥞", "Con harina se hace magia en la cocina de María ✨"],
+  "Jabón": ["¡Jabón fresco = casa limpia! Gracias a María 🧼", "La limpieza también es amor, dice la chef 💚", "Jabón de olor rico = baño spa en casa 🛁"],
+  "Papel": ["¡Nunca falte el papel! María lo sabe 🧻", "Papel higiénico = paz mental para la familia 🕊️", "Stock de papel = familia Alfaro preparada ✅"],
+  "Tomate": ["¡Tomates frescos para una salsa de Nuri! 🍅", "¿Ensalada caprese? ¡Frescura aprobada! 🇮🇹", "Tomate maduro = sabor intenso en cada plato 👌"],
+  "Queso": ["¡Queso derretido = felicidad para Manuel y Víctor Hugo! 🧀", "¿Unas quesadillas rápidas? ¡Snack perfecto de María! 🌮", "Queso fresco para todo, dice la chef 🥗"],
+  "Cereal": ["Cereal crujiente para empezar el día de los niños 🥣", "¿Cereal con leche fría? ¡Clásico Alfaro! 🥛", "Desayuno en 2 minutos = ganar tiempo para la familia ⏱️"],
+  "Avena": ["¡Avena con plátano = energía para toda la mañana! 💪", "María Nuri recomienda: avena para un desayuno saludable 🌾", "Avena con leche y canela = amor en bowl 🥣"],
+  "Plátano": ["¡Plátano maduro para licuado o pan! 🍌", "Potasio natural para Víctor Manuel y los niños 💪", "Plátano frito = postre rápido de María 🍌"],
+  "Manzana": ["¡Una manzana al día... María lo confirma! 🍎", "Manzana con canela = snack saludable para Manuel 🍎", "¡Manzanas frescas para la lonchera de Víctor Hugo! 🍏"],
+  "Zanahoria": ["¡Zanahoria rallada para ensalada! 🥕", "Zanahoria = vista perfecta para estudiar, dice María 👀", "¿Zanahoria al horno con miel? ¡Delicia saludable! 🥕"],
+  "Espinaca": ["¡Espinaca = fuerza como Popeye! 💪", "Espinaca salteada con ajo, receta secreta de Nuri 🥬", "Verde es vida, dice la chef María 🌿"],
+  "Broccoli": ["¡Broccoli al vapor con limón! Saludable y rico 🥦", "Broccoli = superalimento para la familia Alfaro 🥦", "María dice: ¡Nunca falte el verde en el plato! 🌱"],
+  "Pescado": ["¡Pescado a la plancha = omega-3 para todos! 🐟", "Pescado con limón y cilantro, especialidad de Nuri 🐠", "Proteína magra para una familia activa 💪"],
+  "Atún": ["¡Atún con aguacate = comida rápida y saludable! 🥑", "Atún en ensalada = almuerzo ligero de María 🥗", "Proteína de lata para días ocupados 🐟"],
+  "Yogurt": ["¡Yogurt natural con fruta = desayuno perfecto! 🥛", "Probióticos para la digestión de toda la familia 🦠", "Yogurt griego = proteína extra, dice María 💪"],
+  "Miel": ["¡Miel natural para endulzar sin culpa! 🍯", "Miel con limón = remedio de la abuela María 🍋", "Endulzante natural aprobado por la chef 🐝"],
+  "Aguacate": ["¡Aguacate = oro verde! 🥑", "Guacamole rápido para la tarde con los niños 🥑", "Grasas buenas para el cerebro, dice María Nuri 🧠"],
+  "Limón": ["¡Limón para todo! Salsas, agua, pescado... 🍋", "Vitamina C natural para la familia Alfaro 🍋", "Un toque de limón = magia en la cocina ✨"],
+  "Cebolla": ["¡Cebolla caramelizada = sabor extra! 🧅", "Sin cebolla no hay salsa, dice María Nuri 🧅", "Cebolla morada para ensaladas frescas 🥗"],
+  "Ajo": ["¡Ajo = sabor y salud en cada diente! 🧄", "Ajo asado = untable divino, dice la chef 🧄", "Inmune system boost para la familia 💪"],
+  "Pepino": ["¡Pepino fresco = hidratación crunch! 🥒", "Agua de pepino con limón, bebida de María 🥒", "Pepino en ensalada = frescura garantizada 🥗"],
+  "Fresa": ["¡Fresas con crema = postre clásico! 🍓", "Fresas frescas para licuado de los niños 🍓", "Antioxidantes naturales en cada bocado 🍓"],
+  "Sandía": ["¡Sandía fría para el calor! 🍉", "Sandía con limón y chile = tradición 🍉", "Hidratación dulce para Manuel y Víctor Hugo 🍉"],
+  "Naranja": ["¡Jugo de naranja natural para el desayuno! 🍊", "Vitamina C para no enfermarse, dice María 🍊", "Naranjas frescas = energía mañanera ☀️"],
+  "Papa": ["¡Papas al horno con romero! 🥔", "Papa cocida para ensalada rusa de Nuri 🥔", "El carbohidrato que nunca falla en casa 🥔"],
+  "Camote": ["¡Camote al horno = dulzura natural! 🍠", "Camote = superalimento, dice María 🍠", "Fibras y vitaminas para toda la familia 🍠"],
+  "Lentejas": ["¡Lentejas = proteína vegetal barata! 🫘", "Sopa de lentejas para días fríos, receta de María 🍲", "Lentejas con arroz = comida completa 🫘"],
+  "Quinoa": ["¡Quinoa = proteína completa vegetal! 🌾", "Quinoa con verduras, plato estrella de Nuri 🥗", "Grano ancestral para una familia moderna 🌾"],
+  "Garbanzo": ["¡Garbanzos para hummus casero! 🫘", "Garbanzos en caldo = comfort food saludable 🍲", "Proteína y fibra en cada cucharada 🫘"],
+  "Almendra": ["¡Almendras = snack inteligente! 🥜", "Leche de almendra casera, idea de María 🥛", "Grasas buenas para el corazón ❤️"],
+  "Chía": ["¡Chía en agua = hidratación superpoder! 🌱", "Pudín de chía con leche, postre saludable de Nuri 🥣", "Omega-3 vegetal para toda la familia 🌱"],
+  "Cloro": ["¡Cloro = casa desinfectada! 🧴", "Limpieza profunda para la familia Alfaro 🧼", "Hogar limpio = familia sana 🏠"],
+  "Detergente": ["¡Ropa limpia y fresca! 👕", "Detergente ecológico, recomendación de María 🌿", "La ropa limpia también es amor 💚"],
+  "Panela": ["¡Panela = dulzura colombiana! 🟤", "Agua de panela con limón, favorita de la familia 🍋", "Endulzante natural de nuestra tierra 🇨🇴"],
+  "Arepa": ["¡Arepa calientita = desayuno perfecto! 🫓", "Arepa con queso y mantequilla, clásico de Nuri 🧀", "Sin arepa no hay día completo en casa 🇨🇴"],
+  "Plátano maduro": ["¡Plátano maduro para patacón o tajadas! 🍌", "Plátano frito = felicidad criolla 🍌", "El oro amarillo de la cocina colombiana 🌟"],
+  "Yuca": ["¡Yuca al mojo = tradición! 🍠", "Yuca cocida con suero costeño, receta de María 🧀", "El almidón que une a la familia 🫂"],
+  "Maíz": ["¡Maíz para arepas y mazamorra! 🌽", "Grano de oro de nuestra tierra 🇨🇴", "Maíz tierno = sabor a campo 🌾"],
+  "Cilantro": ["¡Cilantro fresco para el ajiaco! 🌿", "Sin cilantro no hay sabor criollo, dice María 🌿", "El toque verde que falta 🍃"],
+  "Hogao": ["¡Hogao listo = comida rápida! 🍅", "Hogao casero de Nuri, el mejor de todos 🧅", "Base de todo lo sabroso 🥘"],
+  "Mantequilla": ["¡Mantequilla para arepas calientitas! 🧈", "Mantequilla derretida = amor líquido 💛", "El toque dorado de María 🧈"],
+  "Leche condensada": ["¡Leche condensada para postres! 🥛", "Arroz con leche cremoso, especialidad de Nuri 🍚", "Dulzura concentrada para la familia 🍮"],
+  "Queso campesino": ["¡Queso campesino para el desayuno! 🧀", "Queso fresco con arepa = match perfecto 🫓", "El queso de la tierra, aprobado por María 🧀"],
+  "Suero costeño": ["¡Suero costeño para mazorca! 🧀", "Suero + yuca = combinación divina 🍠", "Sabor costeño en cada cucharada 🌊"],
+  "Mazamorra": ["¡Mazamorra con leche = tradición! 🥣", "Mazamorra calientita para el alma 🌽", "Desayuno criollo aprobado por Nuri 🌅"],
+  "Chocolisto": ["¡Chocolisto para los niños! 🍫", "Chocolate caliente para Manuel y Víctor Hugo ☕", "Dulce momento familiar 🍫"],
+  "Bocadillo": ["¡Bocadillo con queso = pareja ideal! 🍮", "Bocadillo veleño, dulce de nuestra tierra 🇨🇴", "Postre rápido y delicioso 🍮"],
+  "Aceite de oliva": ["¡Aceite de oliva = salud mediterránea! 🫒", "Aceite de oliva extra virgen, recomendado por María 🫒", "Grasas buenas para toda la familia 💚"],
+  "Vinagre": ["¡Vinagre para ensaladas y adobos! 🍶", "Vinagre de manzana = digestión feliz 🍎", "El ácido que falta en la cocina 🧪"],
+  "Salsa de tomate": ["¡Salsa de tomate para la pasta! 🍅", "Salsa casera de Nuri, la mejor del barrio 🍅", "Base roja de mil platos 🥘"],
+  "Mayonesa": ["¡Mayonesa casera de María! 🥚", "Mayonesa para sándwiches y ensaladas 🥪", "Cremosidad en cada bocado 🍴"],
+  "Mostaza": ["¡Mostaza para perros calientes! 🌭", "Mostaza dijon = toque gourmet 🍯", "El picante justo 🌶️"],
+  "Kétchup": ["¡Kétchup para las papas! 🍟", "Salsa roja favorita de los niños 🍅", "Clásico que nunca falla 🍟"],
+  "Salsa de soya": ["¡Salsa de soya para arroz frito! 🍚", "Toque asiático en la cocina de María 🥢", "Umami en gotas 🍶"],
+  "Especias": ["¡Especias = magia en polvo! ✨", "Comino, orégano, pimienta... el arsenal de Nuri 🧂", "Sin especias no hay sabor 🌶️"],
+  "Laurel": ["¡Hojas de laurel para el caldo! 🍃", "Una hojita cambia todo el guiso 🍃", "Secreto de las abuelas 👵"],
+  "Achiote": ["¡Achiote = color y sabor criollo! 🟠", "Achiote para arroz colorado, receta de María 🍚", "El rojo de nuestra tierra 🇨🇴"],
+  "Comino": ["¡Comino = aroma a hogar! 🌿", "Comino molido, base de la cocina latina 🌿", "El especia que une 🫂"],
+  "Orégano": ["¡Orégano para la pizza casera! 🍕", "Orégano seco = Italia en tu cocina 🇮🇹", "Hierba mágica de María 🌿"],
+  "Pimienta": ["¡Pimienta negra recién molida! 🌑", "Pimienta = picante elegante 🌶️", "El toque final de Nuri 🍴"],
+  "Canela": ["¡Canela para el arroz con leche! 🟤", "Canela en rama = aroma de Navidad 🎄", "Dulce especia del alma 🍮"],
+  "Clavo de olor": ["¡Clavo para el panela caliente! 🌸", "Clavo de olor = perfume de la abuela 👵", "Una puntita nada más 🌸"],
+  "Vainilla": ["¡Esencia de vainilla para postres! 🍦", "Vainilla = dulzura aromática 🍮", "El toque secreto de María 🧁"],
+  "Levadura": ["¡Levadura para pan casero! 🍞", "Levadura fresca = pan esponjoso 🍞", "Magia de la panadería en casa 🏠"],
+  "Polvo de hornear": ["¡Polvo de hornear para tortas! 🎂", "Torta casera de Nuri, la mejor del mundo 🎂", "Esponjosidad garantizada 🧁"],
+  "Chocolate": ["¡Chocolate para el postre! 🍫", "Chocolate semiamargo = felicidad intensa 🍫", "El dulce que une a la familia 🍫"],
+  "Galletas": ["¡Galletas para el cafecito! 🍪", "Galletas María con café = clásico cubano ☕", "Dulce momento de la tarde 🌅"],
+  "Gelatina": ["¡Gelatina de colores para los niños! 🌈", "Gelatina casera de María, la más firme 🍮", "Postre ligero y divertido 🎉"],
+  "Flan": ["¡Flan de caramelo! 🍮", "Flan casero = abrazo dulce 🍮", "El postre que nunca falla 🍮"],
+  "Natilla": ["¡Natilla navideña! 🎄", "Natilla con buñuelo = tradición colombiana 🇨🇴", "Dulce de la tierra, hecho por Nuri 🍮"],
+  "Buñuelo": ["¡Buñuelos calientitos! 🍩", "Buñuelo + natilla = Navidad en casa 🎄", "Esfera de felicidad frita 🍩"],
+  "Empanada": ["¡Empanadas de carne o pollo! 🥟", "Empanada criolla, pasabocas perfecto 🥟", "Masa dorada = amor crujiente 🥟"],
+  "Almojábana": ["¡Almojábanas de queso! 🧀", "Almojábana calientita = desayuno campeón 🏆", "Pan de queso colombiano 🧀"],
+  "Pandebono": ["¡Pandebono con chocolate! 🫓", "Pandebono = alma de Cali 🌴", "Queso y almidón en armonía 🧀"],
+  "Chicharrón": ["¡Chicharrón crocante! 🥓", "Chicharrón con arepa = desayuno paisa 🫓", "Crujiente tradición 🇨🇴"],
+  "Morcilla": ["¡Morcilla con ají! 🌶️", "Morcilla antioqueña = sabor de montaña 🏔️", "Tradición en cada rebanada 🍴"],
+  "Chorizo": ["¡Chorizo santarrosano! 🌭", "Chorizo con arepa y huevo = desayuno completo 🍳", "Sabor ahumado de nuestra tierra 🌭"],
+  "Butifarra": ["¡Butifarra del Sucre! 🌭", "Butifarra con limón = delicia costeña 🍋", "Sabor sucreño en casa 🌊"],
+  "Carne molida": ["¡Carne molida para picadillo! 🥩", "Carne molida con papa = almuerzo rápido 🥔", "Versátil y rendidora 🥩"],
+  "Costilla": ["¡Costilla de cerdo para la sopa! 🍖", "Costilla en sancocho = alma de la olla 🍲", "Hueso con sabor 🍖"],
+  "Carne de res": ["¡Carne de res para el ajiaco! 🥩", "Carne de res en caldo = fortaleza 🥩", "Proteína fuerte para la familia 💪"],
+  "Carne de cerdo": ["¡Carne de cerdo para la bandeja! 🥩", "Cerdo frito = domingo feliz 🍖", "Grasa del sabor 🥩"],
+  "Mojarra": ["¡Mojarra frita! 🐟", "Mojarra con patacón = plato costeño 🌴", "Pescado de nuestras aguas 🐟"],
+  "Bagre": ["¡Bagre en salsa! 🐟", "Bagre = sabor de río 🏞️", "Sopa de bagre para el alma 🍲"],
+  "Trucha": ["¡Trucha a la plancha! 🐟", "Trucha de la región = frescura 🏔️", "Pescado de montaña 🐟"],
+  "Camarón": ["¡Camarones al ajillo! 🦐", "Camarón en cazuela = fiesta de mar 🌊", "Delicia del océano 🦐"],
+  "Langostino": ["¡Langostinos a la plancha! 🦐", "Langostino = lujo en casa 🦐", "Mariscada familiar 🦐"],
+  "Calamar": ["¡Calamares en su tinta! 🦑", "Calamar frito = pasabocas gourmet 🦑", "Sabor a mar profundo 🌊"],
+  "Pulpo": ["¡Pulpo a la gallega! 🐙", "Pulpo en adobo = aventura culinaria 🐙", "Textura del océano 🐙"],
+  "Almeja": ["¡Almejas en salsa verde! 🦪", "Almejas = tesoro del mar 🦪", "Sopa de mariscos real 🍲"],
+  "Mejillón": ["¡Mejillones al vapor! 🦪", "Mejillón = proteína marina 🦪", "Sabor europeo en casa 🇪🇸"],
+  "Langosta": ["¡Langosta para ocasión especial! 🦞", "Langosta con mantequilla = celebración 🦞", "Lujo en la mesa Alfaro 🦞"],
+  "Cangrejo": ["¡Cangrejo en salsa! 🦀", "Cangrejo = esfuerzo del mar 🦀", "Carne dulce y delicada 🦀"],
+  "Jaiba": ["¡Jaiba en salsa de coco! 🦀", "Jaiba = sabor caribeño 🦀", "Playa en cada bocado 🏖️"],
+  "Escalope": ["¡Escalope de pollo empanizado! 🍗", "Escalope con puré = cena elegante 🍽️", "Crujiente por fuera, jugoso por dentro 🍗"],
+  "Milanesa": ["¡Milanesa de res! 🥩", "Milanesa con papas = almuerzo clásico 🥩", "Empanizado dorado 🥩"],
+  "Pechuga": ["¡Pechuga a la plancha! 🍗", "Pechuga rellena de espinaca, receta de María 🍗", "Proteína magra y versátil 💪"],
+  "Pierna": ["¡Pierna de pollo al horno! 🍗", "Pierna con especias = sabor intenso 🍗", "Jugosidad garantizada 🍗"],
+  "Ala": ["¡Alitas de pollo BBQ! 🍗", "Alitas picantes para ver el fútbol ⚽", "Domingo de alitas 🍗"],
+  "Salchicha": ["¡Salchicha para el perro caliente! 🌭", "Salchicha con pan y salsas = felicidad 🌭", "Clásico de los niños 🌭"],
+  "Tocino": ["¡Tocino crujiente! 🥓", "Tocino para el desayuno = día perfecto 🥓", "Humo y sabor 🥓"],
+  "Jamón": ["¡Jamón para el sándwich! 🍖", "Jamón de pierna = fiambre familiar 🍖", "Corte fino y delicado 🍖"],
+  "Mortadela": ["¡Mortadela para la lonchera! 🍖", "Mortadela con queso = combo clásico 🧀", "Fiambre económico y rico 🍖"],
+  "Salami": ["¡Salami para la picada! 🍖", "Salami en rodajas = pasabocas italiano 🇮🇹", "Sabor intenso y especiado 🍖"],
+  "Pepperoni": ["¡Pepperoni para la pizza! 🍕", "Pepperoni = pizza perfecta 🍕", "Rojo picante en cada rodaja 🍕"],
+  "Jamón serrano": ["¡Jamón serrano gourmet! 🍖", "Jamón serrano con melón = elegancia 🍈", "Toque español en casa 🇪🇸"],
+  "Prosciutto": ["¡Prosciutto italiano! 🍖", "Prosciutto con queso brie = sofisticación 🧀", "Italia en tu despensa 🇮🇹"],
+  "Tocineta": ["¡Tocineta ahumada! 🥓", "Tocineta para envolver dátiles = gourmet 🥓", "Dulce y salado perfecto 🥓"],
+  "Chuleta": ["¡Chuleta de cerdo! 🥩", "Chuleta a la plancha con limón = simple y rico 🍋", "Corte familiar rendidor 🥩"],
+  "Lomo": ["¡Lomo de cerdo! 🥩", "Lomo en salsa de champiñones = cena especial 🍄", "Corte noble y tierno 🥩"],
+  "Filete": ["¡Filete de res! 🥩", "Filete a la pimienta = restaurante en casa 🍽️", "Mimo para la familia 🥩"],
+  "T-Bone": ["¡T-Bone para el asado! 🥩", "T-Bone en la parrilla = domingo de campeones 🏆", "Dos cortes en uno 🥩"],
+  "Ribeye": ["¡Ribeye jugoso! 🥩", "Ribeye con mantequilla de hierbas = lujo 🥩", "Mármol perfecto 🥩"],
+  "New York": ["¡New York Strip! 🥩", "New York a la parrilla = Manhattan en casa 🗽", "Corte fino americano 🥩"],
+  "Punta de anca": ["¡Punta de anca! 🥩", "Punta de anca asada = tradición colombiana 🇨🇴", "Corte rendidor y sabroso 🥩"],
+  "Sobrebarriga": ["¡Sobrebarriga en salsa! 🥩", "Sobrebarriga = sabor de Bogotá 🏔️", "Carne sabanera tradicional 🥩"],
+  "Oreada": ["¡Carne oreada! 🥩", "Carne oreada con yuca = plato llanero 🌾", "Secado al sol = sabor concentrado 🥩"],
+  "Cecina": ["¡Cecina de res! 🥩", "Cecina con patacón = tradición santandereana 🥩", "Seca y sabrosa 🥩"],
+  "Carne desmechada": ["¡Carne desmechada! 🥩", "Carne desmechada para arepa = desayuno perfecto 🫓", "Desmechada con hogao = amor 🥩"],
+  "Carne en bistec": ["¡Bistec encebollado! 🥩", "Bistec con cebolla y tomate = almuerzo rápido 🍅", "Corte fino y jugoso 🥩"],
+  "Hígado": ["¡Hígado encebollado! 🥩", "Hígado con cebolla = hierro natural 💪", "Nutritivo y económico 🥩"],
+  "Riñón": ["¡Riñón a la plancha! 🥩", "Riñón con cebolla = tradición española 🇪🇸", "Sabor intenso y único 🥩"],
+  "Lengua": ["¡Lengua en salsa! 🥩", "Lengua = textura especial 🥩", "Corte que sorprende 🥩"],
+  "Molleja": ["¡Molleja a la parrilla! 🥩", "Molleja = delicia argentina 🇦🇷", "Tierna y jugosa 🥩"],
+  "Churrasco": ["¡Churrasco argentino! 🥩", "Churrasco con chimichurri = fiesta 🥩", "Corte de la pampa 🇦🇷"],
+  "Vacio": ["¡Vacio a la parrilla! 🥩", "Vacio = corte argentino noble 🥩", "Jugosidad extrema 🥩"],
+  "Matambre": ["¡Matambre relleno! 🥩", "Matambre = arte de la parrilla 🥩", "Relleno de verduras y huevo 🥩"],
+  "Entraña": ["¡Entraña a la parrilla! 🥩", "Entraña = sabor intenso 🥩", "Textura firme y sabrosa 🥩"],
+  "Asado de tira": ["¡Asado de tira! 🥩", "Asado de tira = hueso con sabor 🥩", "Corte para parrilleros 🥩"],
+  "Pata": ["¡Pata de cerdo! 🍖", "Pata en caldo = colágeno natural 🍖", "Sopa nutritiva y reconfortante 🍲"],
+  "Rabo": ["¡Rabo de toro! 🍖", "Rabo en salsa = tradición española 🇪🇸", "Carne que se deshace 🍖"],
+  "Pechuga de pavo": ["¡Pechuga de pavo! 🦃", "Pechuga de pavo = proteína magra 🦃", "Sándwich saludable 🦃"],
+  "Pierna de pavo": ["¡Pierna de pavo! 🦃", "Pierna de pavo al horno = Navidad 🎄", "Cena de celebración 🦃"],
+  "Pato": ["¡Pato a la naranja! 🦆", "Pato = ave de sabor fuerte 🦆", "Elegancia en el plato 🦆"],
+  "Conejo": ["¡Conejo en salsa! 🐇", "Conejo = carne blanca delicada 🐇", "Sabor suave y fino 🐇"],
+  "Codorniz": ["¡Codorniz asada! 🐦", "Codorniz = miniatura gourmet 🐦", "Ave pequeña, sabor grande 🐦"],
+  "Pavo": ["¡Pavo relleno! 🦃", "Pavo = centro de mesa navideño 🦃", "Tradición de fin de año 🎄"],
+  "Gallina": ["¡Gallina en salsa! 🐔", "Gallina = sabor de campo 🐔", "Carne firme y tradicional 🐔"],
+  "Pollo campero": ["¡Pollo campero! 🐔", "Pollo de corral = sabor auténtico 🐔", "Libre y sabroso 🐔"],
+  "Muslo": ["¡Muslo de pollo! 🍗", "Muslo al horno con papas = clásico 🍗", "Jugoso y económico 🍗"],
+  "Contramuslo": ["¡Contramuslo! 🍗", "Contramuslo deshuesado = versátil 🍗", "Corte rendidor 🍗"],
+  "Menudencias": ["¡Menudencias para el caldo! 🍗", "Menudencias = sabor concentrado 🍗", "Caldo de pollo real 🍲"],
+  "Sopa": ["¡Sopa de pollo! 🍲", "Sopa de pollo con verduras = remedio de abuela 🍲", "Caldo que cura todo 🍲"],
+  "Caldo": ["¡Caldo de costilla! 🍲", "Caldo de costilla con cilantro = desayuno paisa 🍲", "Tradición antioqueña 🇨🇴"],
+  "Consomé": ["¡Consomé de pollo! 🍲", "Consomé claro = ligereza 🍲", "Sopa refinada 🍲"],
+  "Brócoli": ["¡Brócoli al vapor! 🥦", "Brócoli con limón = salud pura 🥦", "Verde que nutre 🥦"],
+  "Coliflor": ["¡Coliflor gratinada! 🥦", "Coliflor con queso = niños felices 🧀", "Verde blanco delicioso 🥦"],
+  "Repollo": ["¡Repollo en ensalada! 🥬", "Repollo morado = color y sabor 🥬", "Crucífera económica 🥬"],
+  "Lechuga": ["¡Lechuga fresca! 🥬", "Lechuga para ensalada = base verde 🥬", "Hidratación crunch 🥬"],
+  "Rúcula": ["¡Rúcula gourmet! 🥬", "Rúcula con parmesano = Italia 🥬", "Peppery y elegante 🥬"],
+  "Albahaca": ["¡Albahaca fresca! 🌿", "Albahaca para pesto = aroma divino 🌿", "Reina de las hierbas 🌿"],
+  "Perejil": ["¡Perejil fresco! 🌿", "Perejil picado = toque final 🌿", "Hierba universal 🌿"],
+  "Cilantro": ["¡Cilantro para todo! 🌿", "Cilantro = sabor latino 🌿", "Sin cilantro no hay vida 🌿"],
+  "Eneldo": ["¡Eneldo para el salmón! 🌿", "Eneldo = toque escandinavo 🌿", "Hierba del norte 🌿"],
+  "Romero": ["¡Romero para el pollo! 🌿", "Romero = aroma mediterráneo 🌿", "Hierba de montaña 🌿"],
+  "Tomillo": ["¡Tomillo para la carne! 🌿", "Tomillo = sabor provenzal 🌿", "Hierba francesa 🌿"],
+  "Salvia": ["¡Salvia con mantequilla! 🌿", "Salvia frita = pasabocas italiano 🌿", "Hierba sabia 🌿"],
+  "Menta": ["¡Menta para el té! 🌿", "Menta fresca = digestión feliz 🌿", "Hierba refrescante 🌿"],
+  "Hierbabuena": ["¡Hierbabuena para el mojito! 🌿", "Hierbabuena = sabor criollo 🌿", "Hierba de la abuela 🌿"],
+  "Laurel": ["¡Laurel para el caldo! 🍃", "Laurel = aroma profundo 🍃", "Hoja mágica 🍃"],
+  "Puerro": ["¡Puerro para la sopa! 🥬", "Puerro = cebolla elegante 🥬", "Sabor suave y fino 🥬"],
+  "Apio": ["¡Apio para el guiso! 🥬", "Apio = crunch saludable 🥬", "Hidratación verde 🥬"],
+  "Espinaca": ["¡Espinaca salteada! 🥬", "Espinaca = hierro natural 🥬", "Popeye tenía razón 🥬"],
+  "Acelga": ["¡Acelga en caldo! 🥬", "Acelga = espinaca criolla 🥬", "Verde de la huerta 🥬"],
+  "Berro": ["¡Berro en ensalada! 🥬", "Berro = picante natural 🥬", "Hierba de agua 🥬"],
+  "Rábano": ["¡Rábano en rodajas! 🥕", "Rábano = crunch picante 🥕", "Color rojo en ensalada 🥕"],
+  "Remolacha": ["¡Remolacha asada! 🟣", "Remolacha = tierra dulce 🟣", "Color y sabor intenso 🟣"],
+  "Zucchini": ["¡Zucchini a la plancha! 🥒", "Zucchini = calabacín italiano 🥒", "Verde alargado y suave 🥒"],
+  "Calabacín": ["¡Calabacín relleno! 🥒", "Calabacín = versátil y ligero 🥒", "Relleno de carne o queso 🥒"],
+  "Calabaza": ["¡Calabaza al horno! 🎃", "Calabaza = dulzura otoñal 🎃", "Naranja y nutritiva 🎃"],
+  "Zapallo": ["¡Zapallo en caldo! 🎃", "Zapallo = calabaza criolla 🎃", "Sopa amarilla reconfortante 🎃"],
+  "Ahuyama": ["¡Ahuyama dulce! 🎃", "Ahuyama = zapallo dulce 🎃", "Postre vegetal 🎃"],
+  "Berenjena": ["¡Berenjena a la parmesana! 🍆", "Berenjena = carne vegetal 🍆", "Morada y esponjosa 🍆"],
+  "Pimentón": ["¡Pimentón relleno! 🫑", "Pimentón = sabor dulce y color 🫑", "Rojo, verde o amarillo 🫑"],
+  "Ají": ["¡Ají picante! 🌶️", "Ají = fuego criollo 🌶️", "Picante que sabe 🌶️"],
+  "Jalapeño": ["¡Jalapeño para nachos! 🌶️", "Jalapeño = picante mexicano 🌶️", "Verde picante controlado 🌶️"],
+  "Habanero": ["¡Habanero extremo! 🌶️", "Habanero = picante caribeño 🌶️", "Fuego tropical 🌶️"],
+  "Guindilla": ["¡Guindilla en aceite! 🌶️", "Guindilla = picante español 🌶️", "Rojo intenso 🌶️"],
+  "Pimienta de cayena": ["¡Cayena en polvo! 🌶️", "Cayena = metabolismo acelerado 🌶️", "Picante que quema grasa 🌶️"],
+  "Pimentón dulce": ["¡Pimentón dulce! 🌶️", "Pimentón dulce = color sin picante 🌶️", "Rojo ahumado 🌶️"],
+  "Pimentón ahumado": ["¡Pimentón ahumado! 🌶️", "Pimentón ahumado = BBQ en polvo 🌶️", "Sabor a parrilla 🌶️"],
+  "Cúrcuma": ["¡Cúrcuma dorada! 🟡", "Cúrcuma = antiinflamatorio natural 🟡", "Oro de la India 🟡"],
+  "Jengibre": ["¡Jengibre fresco! 🟡", "Jengibre = té reconfortante 🟡", "Raíz picante y medicinal 🟡"],
+  "Wasabi": ["¡Wasabi para el sushi! 🟢", "Wasabi = nariz en llamas 🟢", "Picante japonés 🟢"],
+  "Salsa inglesa": ["¡Salsa inglesa para la carne! 🍶", "Salsa inglesa = umami intenso 🍶", "Toque oscuro y profundo 🍶"],
+  "Salsa de ostras": ["¡Salsa de ostras! 🍶", "Salsa de ostras = Asia en botella 🍶", "Umami concentrado 🍶"],
+  "Sriracha": ["¡Sriracha para todo! 🌶️", "Sriracha = picante moderno 🌶️", "Salsa del momento 🌶️"],
+  "Tabasco": ["¡Tabasco clásico! 🌶️", "Tabasco = picante americano 🌶️", "Rojo y vinagre 🌶️"],
+  "Chimichurri": ["¡Chimichurri argentino! 🌿", "Chimichurri = parrilla en frasco 🌿", "Verde y picante 🌿"],
+  "Ají piquiao": ["¡Ají piquiao! 🌶️", "Ají piquiao = picante costeño 🌶️", "Fuego caribeño 🌶️"],
+  "Hogao": ["¡Hogao listo! 🍅", "Hogao = base criolla 🍅", "Tomate y cebolla perfectos 🍅"],
+  "Sofrito": ["¡Sofrito casero! 🍅", "Sofrito = base universal 🍅", "Tomate, cebolla y ajo 🍅"],
+  "Alioli": ["¡Alioli español! 🧄", "Alioli = ajo y aceite 🧄", "Salsa mediterránea 🧄"],
+  "Tzatziki": ["¡Tzatziki griego! 🥒", "Tzatziki = yogurt y pepino 🥒", "Salsa fresca griega 🥒"],
+  "Tahini": ["¡Tahini para hummus! 🫘", "Tahini = pasta de sésamo 🫘", "Base del Medio Oriente 🫘"],
+  "Miso": ["¡Miso para la sopa! 🍲", "Miso = fermentado japonés 🍲", "Umami profundo 🍲"],
+  "Salsa teriyaki": ["¡Teriyaki para el pollo! 🍗", "Teriyaki = dulce y salado japonés 🍗", "Brillo y sabor 🍗"],
+  "Salsa hoisin": ["¡Hoisin para el pato! 🦆", "Hoisin = BBQ chino 🦆", "Dulce y oscuro 🦆"],
+  "Salsa de tamarindo": ["¡Tamarindo dulce! 🟤", "Tamarindo = sabor tropical 🟤", "Dulce ácido exótico 🟤"],
+  "Tamarindo": ["¡Tamarindo fresco! 🟤", "Tamarindo en agua = bebida refrescante 🟤", "Fruta de la pasión 🟤"],
+  "Maracuyá": ["¡Maracuyá para jugo! 🟡", "Maracuyá = pasión en fruta 🟡", "Ácido y aromático 🟡"],
+  "Lulo": ["¡Lulo para jugo! 🟢", "Lulo = naranjilla criolla 🟢", "Ácido verde colombiano 🟢"],
+  "Curuba": ["¡Curuba para batido! 🟡", "Curuba = taxo andino 🟡", "Fruta de montaña 🟡"],
+  "Mora": ["¡Mora para jugo! 🟣", "Mora = frutilla andina 🟣", "Morada y deliciosa 🟣"],
+  "Mora de castilla": ["¡Mora de castilla! 🟣", "Mora de castilla = frutilla criolla 🟣", "Pequeña y potente 🟣"],
+  "Feijoa": ["¡Feijoa para jugo! 🟢", "Feijoa = pineapple guava 🟢", "Aroma tropical 🟢"],
+  "Borojó": ["¡Borojó para batido! 🟤", "Borojó = viagra natural 🟤", "Fruta de la selva 🟤"],
+  "Chontaduro": ["¡Chontaduro con miel! 🟠", "Chontaduro = fruta de palma 🟠", "Sabor a selva 🟠"],
+  "Zapote": ["¡Zapote maduro! 🟤", "Zapote = dulzura tropical 🟤", "Naranja y miel 🟤"],
+  "Mamey": ["¡Mamey en batido! 🟠", "Mamey = sabor a abuela 🟠", "Naranja intenso 🟠"],
+  "Guayaba": ["¡Guayaba para bocadillo! 🟡", "Guayaba = dulzura criolla 🟡", "Aroma inconfundible 🟡"],
+  "Guayaba pera": ["¡Guayaba pera! 🟢", "Guayaba pera = crunch tropical 🟢", "Verde y crocante 🟢"],
+  "Papaya": ["¡Papaya para el desayuno! 🟠", "Papaya = digestión feliz 🟠", "Naranja y saludable 🟠"],
+  "Piña": ["¡Piña fresca! 🍍", "Piña = dulzura tropical 🍍", "Amarilla y jugosa 🍍"],
+  "Mango": ["¡Mango maduro! 🥭", "Mango = rey de las frutas 🥭", "Dulzura dorada 🥭"],
+  "Mango biche": ["¡Mango biche con sal! 🥭", "Mango biche = snack criollo 🥭", "Verde y ácido 🥭"],
+  "Uchuva": ["¡Uchuva dulce! 🟡", "Uchuva = golden berry 🟡", "Pequeña dorada 🟡"],
+  "Grosella": ["¡Grosella roja! 🔴", "Grosella = currant 🔴", "Pequeña y ácida 🔴"],
+  "Arándano": ["¡Arándanos frescos! 🔵", "Arándanos = antioxidantes 🔵", "Azules y saludables 🔵"],
+  "Frambuesa": ["¡Frambuesas dulces! 🔴", "Frambuesas = elegancia roja 🔴", "Delicadas y finas 🔴"],
+  "Mora azul": ["¡Mora azul! 🔵", "Mora azul = blackberry 🔵", "Azul y jugosa 🔵"],
+  "Cereza": ["¡Cerezas frescas! 🔴", "Cerezas = lujo rojo 🔴", "Dulzura fina 🔴"],
+  "Ciruela": ["¡Ciruela madura! 🟣", "Ciruela = dulzura morada 🟣", "Suave y dulce 🟣"],
+  "Durazno": ["¡Durazno jugoso! 🟠", "Durazno = melocotón 🟠", "Naranja y aromático 🟠"],
+  "Nectarina": ["¡Nectarina firme! 🟠", "Nectarina = durazno liso 🟠", "Sin pelusa, más crunch 🟠"],
+  "Albaricoque": ["¡Albaricoque dulce! 🟠", "Albaricoque = chabacano 🟠", "Pequeño y dorado 🟠"],
+  "Higo": ["¡Higo fresco! 🟣", "Higo = fruta de lujo 🟣", "Morado y delicado 🟣"],
+  "Granada": ["¡Granada jugosa! 🔴", "Granada = rubí comestible 🔴", "Perlas de dulzura 🔴"],
+  "Kiwi": ["¡Kiwi verde! 🥝", "Kiwi = vitamina C 🥝", "Verde ácido y crunch 🥝"],
+  "Pera": ["¡Pera jugosa! 🍐", "Pera = dulzura verde 🍐", "Suave y aromática 🍐"],
+  "Uva": ["¡Uvas frescas! 🍇", "Uvas = racimo de dulzura 🍇", "Moradas o verdes 🍇"],
+  "Uva pasa": ["¡Uvas pasas! 🟤", "Uvas pasas = dulzura concentrada 🟤", "Pasas para el arroz 🟤"],
+  "Dátil": ["¡Dátiles dulces! 🟤", "Dátiles = azúcar natural 🟤", "Dulzura del desierto 🟤"],
+  "Hinojo": ["¡Hinojo fresco! 🥬", "Hinojo = anís verde 🥬", "Bulbo aromático 🥬"],
+  "Apio nabo": ["¡Apio nabo! 🥬", "Apio nabo = raíz crunch 🥬", "Blanco y refrescante 🥬"],
+  "Nabo": ["¡Nabo en caldo! 🥬", "Nabo = raíz blanca 🥬", "Sabor suave y tierra 🥬"],
+  "Chirivía": ["¡Chirivía asada! 🥬", "Chirivía = pastinaca 🥬", "Zanahoria blanca 🥬"],
+  "Rábano picante": ["¡Rábano picante! 🥕", "Rábano picante = horseradish 🥕", "Fuego blanco 🥕"],
+  "Jícama": ["¡Jícama fresca! 🥔", "Jícama = crunch mexicano 🥔", "Blanca y refrescante 🥔"],
+  "Camote morado": ["¡Camote morado! 🍠", "Camote morado = ube 🍠", "Dulzura violeta 🍠"],
+  "Ñame": ["¡Ñame cocido! 🍠", "Ñame = tubérculo criollo 🍠", "Blanco y harinoso 🍠"],
+  "Otoe": ["¡Otoe en caldo! 🍠", "Otoe = malanga 🍠", "Tubérculo centroamericano 🍠"],
+  "Tiquisque": ["¡Tiquisque frito! 🍠", "Tiquisque = dasheen 🍠", "Tubérculo caribeño 🍠"],
+  "Malanga": ["¡Malanga asada! 🍠", "Malanga = coco criollo 🍠", "Tubérculo firme 🍠"],
+  "Papa criolla": ["¡Papa criolla! 🥔", "Papa criolla = amarilla y pequeña 🥔", "Sabor a campo colombiano 🇨🇴"],
+  "Papa pastusa": ["¡Papa pastusa! 🥔", "Papa pastusa = blanca y harinosa 🥔", "Ideal para puré 🥔"],
+  "Papa sabanera": ["¡Papa sabanera! 🥔", "Papa sabanera = roja y firme 🥔", "Para ensalada 🥔"],
+  "Papa capira": ["¡Papa capira! 🥔", "Papa capira = grande y rendidora 🥔", "Para sopa 🥔"],
+  "Papa tocarreña": ["¡Papa tocarreña! 🥔", "Papa tocarreña = especial de Boyacá 🥔", "Dulzura andina 🥔"],
+  "Papa suprema": ["¡Papa suprema! 🥔", "Papa suprema = industrial 🥔", "Rendidora y firme 🥔"],
+  "Papa r-12": ["¡Papa r-12! 🥔", "Papa r-12 = variedad especial 🥔", "Para fritar 🥔"],
+  "Papa diacol capiro": ["¡Papa diacol! 🥔", "Papa diacol = variedad moderna 🥔", "Resistente y rendidora 🥔"],
+  "Papa única": ["¡Papa única! 🥔", "Papa única = especial 🥔", "Variedad premium 🥔"]
 };
 
-// ===== RECETAS SALUDABLES =====
+// ===== RECETAS COLOMBIANAS Y SALUDABLES =====
 const RECETAS = [
+  {
+    nombre: "Ajiaco Santafereño",
+    desc: "Sopa tradicional bogotana con tres clases de papa, mazorca, pollo y alcaparras. ¡El alma de Colombia en un bowl! María Nuri lo hace los domingos de lluvia.",
+    ingredientes: ["Papa", "Papa criolla", "Papa sabanera", "Pollo", "Mazorca", "Alcaparras", "Cilantro", "Aguacate"],
+    tiempo: "90 min",
+    dificultad: "Media",
+    emoji: "🍲",
+    tipo: "colombia",
+    tags: ["Tradicional", "Rinde mucho", "Bogotá"]
+  },
+  {
+    nombre: "Bandeja Paisa",
+    desc: "El plato bandera de Antioquia: frijoles, arroz, carne molida, chicharrón, huevo, plátano maduro, arepa y aguacate. ¡Un festín para toda la familia Alfaro!",
+    ingredientes: ["Frijoles", "Arroz", "Carne molida", "Chicharrón", "Huevos", "Plátano maduro", "Arepa", "Aguacate"],
+    tiempo: "60 min",
+    dificultad: "Media",
+    emoji: "🍛",
+    tipo: "colombia",
+    tags: ["Tradicional", "Antioquia", "Proteína"]
+  },
+  {
+    nombre: "Sancocho de Gallina",
+    desc: "Caldo de gallina con papa, yuca, plátano, mazorca y cilantro. María Nuri dice que este sancocho cura resfríos y tristezas. ¡Reconfortante!",
+    ingredientes: ["Gallina", "Papa", "Yuca", "Plátano maduro", "Mazorca", "Cilantro", "Cebolla", "Ajo"],
+    tiempo: "90 min",
+    dificultad: "Media",
+    emoji: "🍲",
+    tipo: "colombia",
+    tags: ["Tradicional", "Sopa", "Cura todo"]
+  },
+  {
+    nombre: "Arepas con Queso",
+    desc: "Arepas de maíz con queso campesino derretido. Desayuno clásico colombiano que Manuel y Víctor Hugo adoran. ¡Nuri las hace calientitas!",
+    ingredientes: ["Arepa", "Queso campesino", "Mantequilla"],
+    tiempo: "15 min",
+    dificultad: "Fácil",
+    emoji: "🫓",
+    tipo: "colombia",
+    tags: ["Desayuno", "Rápido", "Clásico"]
+  },
+  {
+    nombre: "Patacón con Hogao",
+    desc: "Plátano verde aplastado y frito, cubierto con hogao casero de María. ¡Snack perfecto para la tarde colombiana!",
+    ingredientes: ["Plátano maduro", "Hogao", "Aceite"],
+    tiempo: "25 min",
+    dificultad: "Fácil",
+    emoji: "🍌",
+    tipo: "colombia",
+    tags: ["Snack", "Vegetariano", "Costeño"]
+  },
+  {
+    nombre: "Arroz con Coco y Pescado",
+    desc: "Arroz cocinado en leche de coco con pescado frito. Plato costeño que huele a mar. María Nuri lo aprendió de su abuela costeña.",
+    ingredientes: ["Arroz", "Pescado", "Coco", "Ajo", "Cebolla"],
+    tiempo: "40 min",
+    dificultad: "Media",
+    emoji: "🥥",
+    tipo: "colombia",
+    tags: ["Costeño", "Coco", "Mar"]
+  },
+  {
+    nombre: "Mazamorra con Leche",
+    desc: "Mazamorra de maíz trillado con leche condensada. Desayuno tradicional antioqueño. ¡Víctor Manuel lo pide todos los sábados!",
+    ingredientes: ["Mazamorra", "Leche", "Leche condensada"],
+    tiempo: "30 min",
+    dificultad: "Fácil",
+    emoji: "🥣",
+    tipo: "colombia",
+    tags: ["Desayuno", "Antioquia", "Dulce"]
+  },
+  {
+    nombre: "Natilla Navideña",
+    desc: "Natilla de maíz con canela y coco, acompañada de buñuelos. Tradición de diciembre en casa Alfaro Sánchez. ¡Nuri la hace desde noviembre!",
+    ingredientes: ["Maíz", "Leche", "Panela", "Canela", "Coco", "Buñuelo"],
+    tiempo: "45 min",
+    dificultad: "Media",
+    emoji: "🍮",
+    tipo: "colombia",
+    tags: ["Navidad", "Postre", "Tradicional"]
+  },
+  {
+    nombre: "Caldo de Costilla",
+    desc: "Caldo de costilla de res con papa, cilantro y alcaparras. Desayuno paisa que da energía para todo el día. ¡María lo sirve con arepa!",
+    ingredientes: ["Costilla", "Papa", "Cilantro", "Cebolla", "Ajo"],
+    tiempo: "50 min",
+    dificultad: "Fácil",
+    emoji: "🍲",
+    tipo: "colombia",
+    tags: ["Desayuno", "Paisa", "Energía"]
+  },
+  {
+    nombre: "Empanadas de Carne",
+    desc: "Empanadas fritas de carne y papa con ají casero. Pasabocas perfecto para domingo de fútbol. ¡Manuel y Víctor Hugo las devoran!",
+    ingredientes: ["Harina", "Carne molida", "Papa", "Cebolla", "Ajo", "Ají"],
+    tiempo: "40 min",
+    dificultad: "Media",
+    emoji: "🥟",
+    tipo: "colombia",
+    tags: ["Pasabocas", "Frito", "Domingo"]
+  },
+  {
+    nombre: "Tamales Tolimenses",
+    desc: "Tamales envueltos en hoja de plátano con arroz, carne, pollo, huevo y verduras. María Nuri los hace para Navidad. ¡Una obra de arte!",
+    ingredientes: ["Harina", "Arroz", "Carne", "Pollo", "Huevos", "Papa", "Zanahoria", "Arveja"],
+    tiempo: "120 min",
+    dificultad: "Difícil",
+    emoji: "🫔",
+    tipo: "colombia",
+    tags: ["Navidad", "Tolima", "Especial"]
+  },
+  {
+    nombre: "Lechona Tolimense",
+    desc: "Cerdo relleno de arroz, carne y especias, horneado lentamente. Plato festivo para ocasiones especiales. ¡Nuri la reserva para cumpleaños!",
+    ingredientes: ["Cerdo", "Arroz", "Cebolla", "Ajo", "Especias"],
+    tiempo: "180 min",
+    dificultad: "Difícil",
+    emoji: "🐷",
+    tipo: "colombia",
+    tags: ["Festivo", "Tolima", "Especial"]
+  },
+  {
+    nombre: "Cazuela de Mariscos",
+    desc: "Cazuela cremosa de camarón, calamar y pescado con coco y plátano. Sabor costeño que transporta a la playa. ¡María la hace los viernes!",
+    ingredientes: ["Camarón", "Calamar", "Pescado", "Coco", "Plátano maduro", "Cebolla"],
+    tiempo: "50 min",
+    dificultad: "Media",
+    emoji: "🦐",
+    tipo: "colombia",
+    tags: ["Costeño", "Mariscos", "Especial"]
+  },
   {
     nombre: "Arroz con Pollo Familiar",
     desc: "Arroz integral, pollo desmenuzado, zanahoria y chícharos. ¡Un clásico que rinde para 4! María Nuri lo prepara los domingos.",
@@ -616,7 +904,7 @@ const RECETAS = [
   {
     nombre: "Tortillas de Avena Saludables",
     desc: "Harina de avena, plátano maduro y canela. ¡Desayuno dulce sin culpa aprobado por María!",
-    ingredientes: ["Avena", "Plátano", "Miel"],
+    ingredientes: ["Avena", "Plátano", "Canela"],
     tiempo: "15 min",
     dificultad: "Fácil",
     emoji: "🥞",
@@ -642,16 +930,6 @@ const RECETAS = [
     emoji: "🥤",
     tipo: "chef",
     tags: ["Detox", "Energía"]
-  },
-  {
-    nombre: "Sopa de Frijoles Tradicional",
-    desc: "Frijoles de la olla con epazote, cebolla y ajo. ¡Confort en bowl para días fríos!",
-    ingredientes: ["Frijoles", "Cebolla", "Ajo"],
-    tiempo: "40 min",
-    dificultad: "Fácil",
-    emoji: "🫘",
-    tipo: "family",
-    tags: ["Tradicional", "Rinde mucho"]
   },
   {
     nombre: "Pechuga Rellena de Espinaca",
@@ -712,80 +990,372 @@ const RECETAS = [
     emoji: "🌮",
     tipo: "chef",
     tags: ["Viernes", "Proteína"]
+  },
+  {
+    nombre: "Changua",
+    desc: "Sopa de leche con huevo y cilantro, desayuno tradicional boyacense. ¡María Nuri la hace con amor para empezar el día con energía!",
+    ingredientes: ["Leche", "Huevos", "Cilantro", "Cebolla", "Pan"],
+    tiempo: "20 min",
+    dificultad: "Fácil",
+    emoji: "🥣",
+    tipo: "colombia",
+    tags: ["Desayuno", "Boyacá", "Tradicional"]
+  },
+  {
+    nombre: "Mute Santandereano",
+    desc: "Sopa de maíz con carne de cerdo, costilla y verduras. Plato fuerte de la región. ¡Víctor Manuel pide repetir!",
+    ingredientes: ["Maíz", "Carne de cerdo", "Costilla", "Papa", "Yuca", "Cilantro"],
+    tiempo: "120 min",
+    dificultad: "Media",
+    emoji: "🍲",
+    tipo: "colombia",
+    tags: ["Santander", "Sopa fuerte", "Tradicional"]
+  },
+  {
+    nombre: "Mote de Queso",
+    desc: "Sopa de ñame con queso costeño y mantequilla. Delicia del Caribe colombiano. ¡Manuel dice que es su favorita!",
+    ingredientes: ["Ñame", "Queso", "Mantequilla", "Cebolla", "Ajo"],
+    tiempo: "40 min",
+    dificultad: "Fácil",
+    emoji: "🍲",
+    tipo: "colombia",
+    tags: ["Costeño", "Queso", "Tradicional"]
+  },
+  {
+    nombre: "Carne Oreada con Yuca",
+    desc: "Carne de res secada al sol, frita y servida con yuca y hogao. Plato llanero auténtico. ¡Sabor de los Llanos Orientales!",
+    ingredientes: ["Carne", "Yuca", "Hogao"],
+    tiempo: "30 min",
+    dificultad: "Fácil",
+    emoji: "🥩",
+    tipo: "colombia",
+    tags: ["Llanero", "Tradicional", "Especial"]
+  },
+  {
+    nombre: "Pepitoria de Pollo",
+    desc: "Pollo desmechado con arroz, huevo y sangre de pollo cocida. Plato típico de la región Caribe. ¡María Nuri lo domina!",
+    ingredientes: ["Pollo", "Arroz", "Huevos"],
+    tiempo: "50 min",
+    dificultad: "Media",
+    emoji: "🍗",
+    tipo: "colombia",
+    tags: ["Caribe", "Tradicional", "Especial"]
+  },
+  {
+    nombre: "Bollos de Yuca",
+    desc: "Yuca rallada envuelta en hoja de bijao, cocida al vapor. Acompañamiento perfecto. ¡Nuri los hace los fines de semana!",
+    ingredientes: ["Yuca", "Queso", "Mantequilla"],
+    tiempo: "45 min",
+    dificultad: "Fácil",
+    emoji: "🫔",
+    tipo: "colombia",
+    tags: ["Acompañamiento", "Costeño", "Tradicional"]
+  },
+  {
+    nombre: "Cocido Boyacense",
+    desc: "Sopa de papa, carne, costilla, maíz, habas y verduras. Plato completo de la región andina. ¡Abundancia en un caldo!",
+    ingredientes: ["Papa", "Carne", "Costilla", "Maíz", "Habichuela"],
+    tiempo: "90 min",
+    dificultad: "Media",
+    emoji: "🍲",
+    tipo: "colombia",
+    tags: ["Boyacá", "Sopa completa", "Tradicional"]
+  },
+  {
+    nombre: "Carne Desmechada con Arepa",
+    desc: "Carne de res desmechada en hogao, servida con arepa calientita. Desayuno o almuerzo rápido. ¡Los niños lo piden siempre!",
+    ingredientes: ["Carne", "Hogao", "Arepa"],
+    tiempo: "40 min",
+    dificultad: "Fácil",
+    emoji: "🫓",
+    tipo: "colombia",
+    tags: ["Desayuno", "Rápido", "Clásico"]
   }
+];
+
+// ===== CATÁLOGO DE PRODUCTOS PREDEFINIDOS =====
+const CATALOG = [
+  { nombre: "Arroz", categoria: "esenciales", emoji: "🍚", esencial: true, unidad: "kg" },
+  { nombre: "Frijoles", categoria: "esenciales", emoji: "🫘", esencial: true, unidad: "kg" },
+  { nombre: "Lentejas", categoria: "cereales", emoji: "🫘", esencial: false, unidad: "kg" },
+  { nombre: "Garbanzo", categoria: "cereales", emoji: "🫘", esencial: false, unidad: "kg" },
+  { nombre: "Aceite", categoria: "esenciales", emoji: "🫒", esencial: true, unidad: "lt" },
+  { nombre: "Aceite de oliva", categoria: "esenciales", emoji: "🫒", esencial: false, unidad: "lt" },
+  { nombre: "Sal", categoria: "esenciales", emoji: "🧂", esencial: true, unidad: "pz" },
+  { nombre: "Azúcar", categoria: "esenciales", emoji: "🍬", esencial: true, unidad: "kg" },
+  { nombre: "Panela", categoria: "esenciales", emoji: "🟤", esencial: true, unidad: "pz" },
+  { nombre: "Pasta", categoria: "esenciales", emoji: "🍝", esencial: true, unidad: "pz" },
+  { nombre: "Harina", categoria: "esenciales", emoji: "🌾", esencial: true, unidad: "kg" },
+  { nombre: "Harina de maíz", categoria: "esenciales", emoji: "🌽", esencial: true, unidad: "kg" },
+  { nombre: "Avena", categoria: "cereales", emoji: "🌾", esencial: false, unidad: "kg" },
+  { nombre: "Quinoa", categoria: "cereales", emoji: "🌾", esencial: false, unidad: "kg" },
+  { nombre: "Miel", categoria: "esenciales", emoji: "🍯", esencial: false, unidad: "pz" },
+  { nombre: "Garrafón", categoria: "agua", emoji: "💧", esencial: true, unidad: "pz" },
+  { nombre: "Huevos", categoria: "frescos", emoji: "🥚", esencial: true, unidad: "pz" },
+  { nombre: "Leche", categoria: "lacteos", emoji: "🥛", esencial: true, unidad: "lt" },
+  { nombre: "Yogurt", categoria: "lacteos", emoji: "🥛", esencial: false, unidad: "pz" },
+  { nombre: "Leche condensada", categoria: "lacteos", emoji: "🥛", esencial: false, unidad: "lata" },
+  { nombre: "Pan", categoria: "frescos", emoji: "🍞", esencial: false, unidad: "pz" },
+  { nombre: "Arepa", categoria: "frescos", emoji: "🫓", esencial: true, unidad: "pz" },
+  { nombre: "Almojábana", categoria: "frescos", emoji: "🧀", esencial: false, unidad: "pz" },
+  { nombre: "Pandebono", categoria: "frescos", emoji: "🫓", esencial: false, unidad: "pz" },
+  { nombre: "Buñuelo", categoria: "frescos", emoji: "🍩", esencial: false, unidad: "pz" },
+  { nombre: "Pollo", categoria: "proteinas", emoji: "🍗", esencial: true, unidad: "kg" },
+  { nombre: "Pechuga", categoria: "proteinas", emoji: "🍗", esencial: false, unidad: "kg" },
+  { nombre: "Pierna", categoria: "proteinas", emoji: "🍗", esencial: false, unidad: "kg" },
+  { nombre: "Carne de res", categoria: "proteinas", emoji: "🥩", esencial: true, unidad: "kg" },
+  { nombre: "Carne molida", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Costilla", categoria: "proteinas", emoji: "🍖", esencial: false, unidad: "kg" },
+  { nombre: "Carne de cerdo", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Chicharrón", categoria: "proteinas", emoji: "🥓", esencial: false, unidad: "kg" },
+  { nombre: "Chorizo", categoria: "proteinas", emoji: "🌭", esencial: false, unidad: "pz" },
+  { nombre: "Morcilla", categoria: "proteinas", emoji: "🌭", esencial: false, unidad: "pz" },
+  { nombre: "Pescado", categoria: "proteinas", emoji: "🐟", esencial: false, unidad: "kg" },
+  { nombre: "Mojarra", categoria: "proteinas", emoji: "🐟", esencial: false, unidad: "kg" },
+  { nombre: "Atún", categoria: "proteinas", emoji: "🐟", esencial: false, unidad: "lata" },
+  { nombre: "Camarón", categoria: "proteinas", emoji: "🦐", esencial: false, unidad: "kg" },
+  { nombre: "Tomate", categoria: "frescos", emoji: "🍅", esencial: true, unidad: "pz" },
+  { nombre: "Cebolla", categoria: "frescos", emoji: "🧅", esencial: true, unidad: "pz" },
+  { nombre: "Ajo", categoria: "frescos", emoji: "🧄", esencial: true, unidad: "cab" },
+  { nombre: "Pepino", categoria: "frescos", emoji: "🥒", esencial: false, unidad: "pz" },
+  { nombre: "Zanahoria", categoria: "frescos", emoji: "🥕", esencial: false, unidad: "pz" },
+  { nombre: "Espinaca", categoria: "frescos", emoji: "🥬", esencial: false, unidad: "man" },
+  { nombre: "Broccoli", categoria: "frescos", emoji: "🥦", esencial: false, unidad: "pz" },
+  { nombre: "Coliflor", categoria: "frescos", emoji: "🥦", esencial: false, unidad: "pz" },
+  { nombre: "Lechuga", categoria: "frescos", emoji: "🥬", esencial: false, unidad: "pz" },
+  { nombre: "Cilantro", categoria: "frescos", emoji: "🌿", esencial: true, unidad: "man" },
+  { nombre: "Perejil", categoria: "frescos", emoji: "🌿", esencial: false, unidad: "man" },
+  { nombre: "Plátano", categoria: "frescos", emoji: "🍌", esencial: true, unidad: "pz" },
+  { nombre: "Plátano maduro", categoria: "frescos", emoji: "🍌", esencial: false, unidad: "pz" },
+  { nombre: "Manzana", categoria: "frescos", emoji: "🍎", esencial: false, unidad: "pz" },
+  { nombre: "Fresa", categoria: "frescos", emoji: "🍓", esencial: false, unidad: "pz" },
+  { nombre: "Naranja", categoria: "frescos", emoji: "🍊", esencial: false, unidad: "pz" },
+  { nombre: "Limón", categoria: "frescos", emoji: "🍋", esencial: true, unidad: "pz" },
+  { nombre: "Aguacate", categoria: "frescos", emoji: "🥑", esencial: true, unidad: "pz" },
+  { nombre: "Papa", categoria: "frescos", emoji: "🥔", esencial: true, unidad: "kg" },
+  { nombre: "Papa criolla", categoria: "frescos", emoji: "🥔", esencial: false, unidad: "kg" },
+  { nombre: "Yuca", categoria: "frescos", emoji: "🍠", esencial: false, unidad: "kg" },
+  { nombre: "Ñame", categoria: "frescos", emoji: "🍠", esencial: false, unidad: "kg" },
+  { nombre: "Camote", categoria: "frescos", emoji: "🍠", esencial: false, unidad: "kg" },
+  { nombre: "Maíz", categoria: "cereales", emoji: "🌽", esencial: false, unidad: "kg" },
+  { nombre: "Chía", categoria: "cereales", emoji: "🌱", esencial: false, unidad: "pz" },
+  { nombre: "Almendra", categoria: "cereales", emoji: "🥜", esencial: false, unidad: "pz" },
+  { nombre: "Café", categoria: "otros", emoji: "☕", esencial: true, unidad: "pz" },
+  { nombre: "Cereal", categoria: "otros", emoji: "🥣", esencial: false, unidad: "pz" },
+  { nombre: "Chocolate", categoria: "otros", emoji: "🍫", esencial: false, unidad: "pz" },
+  { nombre: "Chocolisto", categoria: "otros", emoji: "🍫", esencial: false, unidad: "pz" },
+  { nombre: "Queso", categoria: "lacteos", emoji: "🧀", esencial: true, unidad: "kg" },
+  { nombre: "Queso campesino", categoria: "lacteos", emoji: "🧀", esencial: false, unidad: "kg" },
+  { nombre: "Suero costeño", categoria: "lacteos", emoji: "🧀", esencial: false, unidad: "pz" },
+  { nombre: "Mantequilla", categoria: "lacteos", emoji: "🧈", esencial: true, unidad: "pz" },
+  { nombre: "Jabón", categoria: "hogar", emoji: "🧼", esencial: true, unidad: "pz" },
+  { nombre: "Papel", categoria: "hogar", emoji: "🧻", esencial: true, unidad: "pz" },
+  { nombre: "Detergente", categoria: "hogar", emoji: "🧴", esencial: true, unidad: "pz" },
+  { nombre: "Cloro", categoria: "hogar", emoji: "🧴", esencial: true, unidad: "pz" },
+  { nombre: "Salsa de tomate", categoria: "esenciales", emoji: "🍅", esencial: false, unidad: "pz" },
+  { nombre: "Mayonesa", categoria: "esenciales", emoji: "🥚", esencial: false, unidad: "pz" },
+  { nombre: "Kétchup", categoria: "esenciales", emoji: "🍟", esencial: false, unidad: "pz" },
+  { nombre: "Mostaza", categoria: "esenciales", emoji: "🌭", esencial: false, unidad: "pz" },
+  { nombre: "Vinagre", categoria: "esenciales", emoji: "🍶", esencial: false, unidad: "pz" },
+  { nombre: "Salsa de soya", categoria: "esenciales", emoji: "🍶", esencial: false, unidad: "pz" },
+  { nombre: "Especias", categoria: "esenciales", emoji: "✨", esencial: true, unidad: "pz" },
+  { nombre: "Comino", categoria: "esenciales", emoji: "🌿", esencial: false, unidad: "pz" },
+  { nombre: "Orégano", categoria: "esenciales", emoji: "🌿", esencial: false, unidad: "pz" },
+  { nombre: "Pimienta", categoria: "esenciales", emoji: "🌑", esencial: true, unidad: "pz" },
+  { nombre: "Canela", categoria: "esenciales", emoji: "🟤", esencial: false, unidad: "pz" },
+  { nombre: "Achiote", categoria: "esenciales", emoji: "🟠", esencial: false, unidad: "pz" },
+  { nombre: "Laurel", categoria: "esenciales", emoji: "🍃", esencial: false, unidad: "pz" },
+  { nombre: "Vainilla", categoria: "esenciales", emoji: "🍦", esencial: false, unidad: "pz" },
+  { nombre: "Polvo de hornear", categoria: "esenciales", emoji: "🧁", esencial: false, unidad: "pz" },
+  { nombre: "Levadura", categoria: "esenciales", emoji: "🍞", esencial: false, unidad: "pz" },
+  { nombre: "Galletas", categoria: "otros", emoji: "🍪", esencial: false, unidad: "pz" },
+  { nombre: "Gelatina", categoria: "otros", emoji: "🌈", esencial: false, unidad: "pz" },
+  { nombre: "Bocadillo", categoria: "otros", emoji: "🍮", esencial: false, unidad: "pz" },
+  { nombre: "Mazamorra", categoria: "cereales", emoji: "🥣", esencial: false, unidad: "pz" },
+  { nombre: "Empanada", categoria: "frescos", emoji: "🥟", esencial: false, unidad: "pz" },
+  { nombre: "Hogao", categoria: "esenciales", emoji: "🍅", esencial: true, unidad: "pz" },
+  { nombre: "Sofrito", categoria: "esenciales", emoji: "🍅", esencial: false, unidad: "pz" },
+  { nombre: "Jamón", categoria: "proteinas", emoji: "🍖", esencial: false, unidad: "kg" },
+  { nombre: "Salchicha", categoria: "proteinas", emoji: "🌭", esencial: false, unidad: "pz" },
+  { nombre: "Tocino", categoria: "proteinas", emoji: "🥓", esencial: false, unidad: "kg" },
+  { nombre: "Mortadela", categoria: "proteinas", emoji: "🍖", esencial: false, unidad: "kg" },
+  { nombre: "Pavo", categoria: "proteinas", emoji: "🦃", esencial: false, unidad: "kg" },
+  { nombre: "Pechuga de pavo", categoria: "proteinas", emoji: "🦃", esencial: false, unidad: "kg" },
+  { nombre: "Bagre", categoria: "proteinas", emoji: "🐟", esencial: false, unidad: "kg" },
+  { nombre: "Trucha", categoria: "proteinas", emoji: "🐟", esencial: false, unidad: "kg" },
+  { nombre: "Calamar", categoria: "proteinas", emoji: "🦑", esencial: false, unidad: "kg" },
+  { nombre: "Langostino", categoria: "proteinas", emoji: "🦐", esencial: false, unidad: "kg" },
+  { nombre: "Almeja", categoria: "proteinas", emoji: "🦪", esencial: false, unidad: "kg" },
+  { nombre: "Cangrejo", categoria: "proteinas", emoji: "🦀", esencial: false, unidad: "kg" },
+  { nombre: "Jaiba", categoria: "proteinas", emoji: "🦀", esencial: false, unidad: "kg" },
+  { nombre: "Piña", categoria: "frescos", emoji: "🍍", esencial: false, unidad: "pz" },
+  { nombre: "Mango", categoria: "frescos", emoji: "🥭", esencial: false, unidad: "pz" },
+  { nombre: "Papaya", categoria: "frescos", emoji: "🟠", esencial: false, unidad: "pz" },
+  { nombre: "Guayaba", categoria: "frescos", emoji: "🟡", esencial: false, unidad: "pz" },
+  { nombre: "Maracuyá", categoria: "frescos", emoji: "🟡", esencial: false, unidad: "pz" },
+  { nombre: "Lulo", categoria: "frescos", emoji: "🟢", esencial: false, unidad: "pz" },
+  { nombre: "Mora", categoria: "frescos", emoji: "🟣", esencial: false, unidad: "pz" },
+  { nombre: "Uchuva", categoria: "frescos", emoji: "🟡", esencial: false, unidad: "pz" },
+  { nombre: "Feijoa", categoria: "frescos", emoji: "🟢", esencial: false, unidad: "pz" },
+  { nombre: "Curuba", categoria: "frescos", emoji: "🟡", esencial: false, unidad: "pz" },
+  { nombre: "Borojó", categoria: "frescos", emoji: "🟤", esencial: false, unidad: "pz" },
+  { nombre: "Chontaduro", categoria: "frescos", emoji: "🟠", esencial: false, unidad: "pz" },
+  { nombre: "Zapote", categoria: "frescos", emoji: "🟤", esencial: false, unidad: "pz" },
+  { nombre: "Mamey", categoria: "frescos", emoji: "🟠", esencial: false, unidad: "pz" },
+  { nombre: "Sandía", categoria: "frescos", emoji: "🍉", esencial: false, unidad: "pz" },
+  { nombre: "Uva", categoria: "frescos", emoji: "🍇", esencial: false, unidad: "kg" },
+  { nombre: "Pera", categoria: "frescos", emoji: "🍐", esencial: false, unidad: "pz" },
+  { nombre: "Kiwi", categoria: "frescos", emoji: "🥝", esencial: false, unidad: "pz" },
+  { nombre: "Granada", categoria: "frescos", emoji: "🔴", esencial: false, unidad: "pz" },
+  { nombre: "Higo", categoria: "frescos", emoji: "🟣", esencial: false, unidad: "pz" },
+  { nombre: "Ciruela", categoria: "frescos", emoji: "🟣", esencial: false, unidad: "pz" },
+  { nombre: "Durazno", categoria: "frescos", emoji: "🟠", esencial: false, unidad: "pz" },
+  { nombre: "Nectarina", categoria: "frescos", emoji: "🟠", esencial: false, unidad: "pz" },
+  { nombre: "Arándano", categoria: "frescos", emoji: "🔵", esencial: false, unidad: "pz" },
+  { nombre: "Frambuesa", categoria: "frescos", emoji: "🔴", esencial: false, unidad: "pz" },
+  { nombre: "Mora azul", categoria: "frescos", emoji: "🔵", esencial: false, unidad: "pz" },
+  { nombre: "Cereza", categoria: "frescos", emoji: "🔴", esencial: false, unidad: "kg" },
+  { nombre: "Dátil", categoria: "frescos", emoji: "🟤", esencial: false, unidad: "pz" },
+  { nombre: "Uva pasa", categoria: "cereales", emoji: "🟤", esencial: false, unidad: "pz" },
+  { nombre: "Pimentón", categoria: "frescos", emoji: "🫑", esencial: false, unidad: "pz" },
+  { nombre: "Ají", categoria: "frescos", emoji: "🌶️", esencial: false, unidad: "pz" },
+  { nombre: "Berenjena", categoria: "frescos", emoji: "🍆", esencial: false, unidad: "pz" },
+  { nombre: "Calabacín", categoria: "frescos", emoji: "🥒", esencial: false, unidad: "pz" },
+  { nombre: "Zucchini", categoria: "frescos", emoji: "🥒", esencial: false, unidad: "pz" },
+  { nombre: "Calabaza", categoria: "frescos", emoji: "🎃", esencial: false, unidad: "kg" },
+  { nombre: "Zapallo", categoria: "frescos", emoji: "🎃", esencial: false, unidad: "kg" },
+  { nombre: "Ahuyama", categoria: "frescos", emoji: "🎃", esencial: false, unidad: "kg" },
+  { nombre: "Repollo", categoria: "frescos", emoji: "🥬", esencial: false, unidad: "pz" },
+  { nombre: "Acelga", categoria: "frescos", emoji: "🥬", esencial: false, unidad: "man" },
+  { nombre: "Apio", categoria: "frescos", emoji: "🥬", esencial: false, unidad: "man" },
+  { nombre: "Puerro", categoria: "frescos", emoji: "🥬", esencial: false, unidad: "pz" },
+  { nombre: "Hinojo", categoria: "frescos", emoji: "🥬", esencial: false, unidad: "pz" },
+  { nombre: "Rábano", categoria: "frescos", emoji: "🥕", esencial: false, unidad: "man" },
+  { nombre: "Remolacha", categoria: "frescos", emoji: "🟣", esencial: false, unidad: "pz" },
+  { nombre: "Jícama", categoria: "frescos", emoji: "🥔", esencial: false, unidad: "pz" },
+  { nombre: "Camote morado", categoria: "frescos", emoji: "🍠", esencial: false, unidad: "kg" },
+  { nombre: "Otoe", categoria: "frescos", emoji: "🍠", esencial: false, unidad: "kg" },
+  { nombre: "Tiquisque", categoria: "frescos", emoji: "🍠", esencial: false, unidad: "kg" },
+  { nombre: "Malanga", categoria: "frescos", emoji: "🍠", esencial: false, unidad: "kg" },
+  { nombre: "Papa pastusa", categoria: "frescos", emoji: "🥔", esencial: false, unidad: "kg" },
+  { nombre: "Papa sabanera", categoria: "frescos", emoji: "🥔", esencial: false, unidad: "kg" },
+  { nombre: "Papa capira", categoria: "frescos", emoji: "🥔", esencial: false, unidad: "kg" },
+  { nombre: "Papa tocarreña", categoria: "frescos", emoji: "🥔", esencial: false, unidad: "kg" },
+  { nombre: "Albahaca", categoria: "frescos", emoji: "🌿", esencial: false, unidad: "man" },
+  { nombre: "Menta", categoria: "frescos", emoji: "🌿", esencial: false, unidad: "man" },
+  { nombre: "Hierbabuena", categoria: "frescos", emoji: "🌿", esencial: false, unidad: "man" },
+  { nombre: "Tomillo", categoria: "frescos", emoji: "🌿", esencial: false, unidad: "man" },
+  { nombre: "Romero", categoria: "frescos", emoji: "🌿", esencial: false, unidad: "man" },
+  { nombre: "Salvia", categoria: "frescos", emoji: "🌿", esencial: false, unidad: "man" },
+  { nombre: "Eneldo", categoria: "frescos", emoji: "🌿", esencial: false, unidad: "man" },
+  { nombre: "Cúrcuma", categoria: "esenciales", emoji: "🟡", esencial: false, unidad: "pz" },
+  { nombre: "Jengibre", categoria: "frescos", emoji: "🟡", esencial: false, unidad: "pz" },
+  { nombre: "Clavo de olor", categoria: "esenciales", emoji: "🌸", esencial: false, unidad: "pz" },
+  { nombre: "Pimienta de cayena", categoria: "esenciales", emoji: "🌶️", esencial: false, unidad: "pz" },
+  { nombre: "Pimentón dulce", categoria: "esenciales", emoji: "🌶️", esencial: false, unidad: "pz" },
+  { nombre: "Pimentón ahumado", categoria: "esenciales", emoji: "🌶️", esencial: false, unidad: "pz" },
+  { nombre: "Salsa inglesa", categoria: "esenciales", emoji: "🍶", esencial: false, unidad: "pz" },
+  { nombre: "Salsa de ostras", categoria: "esenciales", emoji: "🍶", esencial: false, unidad: "pz" },
+  { nombre: "Sriracha", categoria: "esenciales", emoji: "🌶️", esencial: false, unidad: "pz" },
+  { nombre: "Tabasco", categoria: "esenciales", emoji: "🌶️", esencial: false, unidad: "pz" },
+  { nombre: "Chimichurri", categoria: "esenciales", emoji: "🌿", esencial: false, unidad: "pz" },
+  { nombre: "Ají piquiao", categoria: "esenciales", emoji: "🌶️", esencial: false, unidad: "pz" },
+  { nombre: "Alioli", categoria: "esenciales", emoji: "🧄", esencial: false, unidad: "pz" },
+  { nombre: "Tzatziki", categoria: "esenciales", emoji: "🥒", esencial: false, unidad: "pz" },
+  { nombre: "Tahini", categoria: "cereales", emoji: "🫘", esencial: false, unidad: "pz" },
+  { nombre: "Miso", categoria: "cereales", emoji: "🍲", esencial: false, unidad: "pz" },
+  { nombre: "Salsa teriyaki", categoria: "esenciales", emoji: "🍗", esencial: false, unidad: "pz" },
+  { nombre: "Salsa hoisin", categoria: "esenciales", emoji: "🦆", esencial: false, unidad: "pz" },
+  { nombre: "Salsa de tamarindo", categoria: "esenciales", emoji: "🟤", esencial: false, unidad: "pz" },
+  { nombre: "Tamarindo", categoria: "frescos", emoji: "🟤", esencial: false, unidad: "kg" },
+  { nombre: "Flan", categoria: "otros", emoji: "🍮", esencial: false, unidad: "pz" },
+  { nombre: "Natilla", categoria: "otros", emoji: "🍮", esencial: false, unidad: "pz" },
+  { nombre: "Gelatina", categoria: "otros", emoji: "🌈", esencial: false, unidad: "pz" },
+  { nombre: "Chicharrón", categoria: "proteinas", emoji: "🥓", esencial: false, unidad: "kg" },
+  { nombre: "Almojábana", categoria: "frescos", emoji: "🧀", esencial: false, unidad: "pz" },
+  { nombre: "Pandebono", categoria: "frescos", emoji: "🫓", esencial: false, unidad: "pz" },
+  { nombre: "Buñuelo", categoria: "frescos", emoji: "🍩", esencial: false, unidad: "pz" },
+  { nombre: "Empanada", categoria: "frescos", emoji: "🥟", esencial: false, unidad: "pz" },
+  { nombre: "Hogao", categoria: "esenciales", emoji: "🍅", esencial: true, unidad: "pz" },
+  { nombre: "Sofrito", categoria: "esenciales", emoji: "🍅", esencial: false, unidad: "pz" },
+  { nombre: "Mazorca", categoria: "frescos", emoji: "🌽", esencial: false, unidad: "pz" },
+  { nombre: "Alcaparras", categoria: "esenciales", emoji: "🫒", esencial: false, unidad: "pz" },
+  { nombre: "Arveja", categoria: "cereales", emoji: "🫛", esencial: false, unidad: "kg" },
+  { nombre: "Habichuela", categoria: "cereales", emoji: "🫛", esencial: false, unidad: "kg" },
+  { nombre: "Coco", categoria: "frescos", emoji: "🥥", esencial: false, unidad: "pz" },
+  { nombre: "Leche de coco", categoria: "lacteos", emoji: "🥥", esencial: false, unidad: "lata" },
+  { nombre: "Mango biche", categoria: "frescos", emoji: "🥭", esencial: false, unidad: "pz" },
+  { nombre: "Papa suprema", categoria: "frescos", emoji: "🥔", esencial: false, unidad: "kg" },
+  { nombre: "Papa r-12", categoria: "frescos", emoji: "🥔", esencial: false, unidad: "kg" },
+  { nombre: "Papa diacol capiro", categoria: "frescos", emoji: "🥔", esencial: false, unidad: "kg" },
+  { nombre: "Papa única", categoria: "frescos", emoji: "🥔", esencial: false, unidad: "kg" },
+  { nombre: "Cecina", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Carne oreada", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Sobrebarriga", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Punta de anca", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Filete", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Lomo", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Chuleta", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Churrasco", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Vacio", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Entraña", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Asado de tira", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Matambre", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Hígado", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Riñón", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Lengua", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Molleja", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Pata", categoria: "proteinas", emoji: "🍖", esencial: false, unidad: "kg" },
+  { nombre: "Rabo", categoria: "proteinas", emoji: "🍖", esencial: false, unidad: "kg" },
+  { nombre: "Conejo", categoria: "proteinas", emoji: "🐇", esencial: false, unidad: "kg" },
+  { nombre: "Codorniz", categoria: "proteinas", emoji: "🐦", esencial: false, unidad: "kg" },
+  { nombre: "Gallina", categoria: "proteinas", emoji: "🐔", esencial: false, unidad: "kg" },
+  { nombre: "Pollo campero", categoria: "proteinas", emoji: "🐔", esencial: false, unidad: "kg" },
+  { nombre: "Muslo", categoria: "proteinas", emoji: "🍗", esencial: false, unidad: "kg" },
+  { nombre: "Contramuslo", categoria: "proteinas", emoji: "🍗", esencial: false, unidad: "kg" },
+  { nombre: "Ala", categoria: "proteinas", emoji: "🍗", esencial: false, unidad: "kg" },
+  { nombre: "Escalope", categoria: "proteinas", emoji: "🍗", esencial: false, unidad: "kg" },
+  { nombre: "Milanesa", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Carne en bistec", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Carne desmechada", categoria: "proteinas", emoji: "🥩", esencial: false, unidad: "kg" },
+  { nombre: "Pepperoni", categoria: "proteinas", emoji: "🍕", esencial: false, unidad: "kg" },
+  { nombre: "Jamón serrano", categoria: "proteinas", emoji: "🍖", esencial: false, unidad: "kg" },
+  { nombre: "Prosciutto", categoria: "proteinas", emoji: "🍖", esencial: false, unidad: "kg" },
+  { nombre: "Tocineta", categoria: "proteinas", emoji: "🥓", esencial: false, unidad: "kg" },
+  { nombre: "Salami", categoria: "proteinas", emoji: "🍖", esencial: false, unidad: "kg" },
+  { nombre: "Butifarra", categoria: "proteinas", emoji: "🌭", esencial: false, unidad: "pz" },
+  { nombre: "Langosta", categoria: "proteinas", emoji: "🦞", esencial: false, unidad: "kg" },
+  { nombre: "Mejillón", categoria: "proteinas", emoji: "🦪", esencial: false, unidad: "kg" },
+  { nombre: "Pulpo", categoria: "proteinas", emoji: "🐙", esencial: false, unidad: "kg" },
+  { nombre: "Wasabi", categoria: "esenciales", emoji: "🟢", esencial: false, unidad: "pz" },
+  { nombre: "Hogao", categoria: "esenciales", emoji: "🍅", esencial: true, unidad: "pz" },
+  { nombre: "Sofrito", categoria: "esenciales", emoji: "🍅", esencial: false, unidad: "pz" }
 ];
 
 // ===== DATA =====
 let productos = [];
 let listaCompras = [];
 let nextId = 1;
-let stats = { racha: 5, nivel: 3, productosGestionados: 0, recetasChef: 12 };
+let stats = { racha: 0, nivel: 1, productosGestionados: 0, recetasChef: 0 };
+let catalogSelected = new Set();
+let outstockSelected = new Set();
 
 function initData() {
-  const saved = localStorage.getItem('nutrialfaro_productos');
-  const savedList = localStorage.getItem('nutrialfaro_compras');
-  const savedStats = localStorage.getItem('nutrialfaro_stats');
-  if (saved) { productos = JSON.parse(saved); nextId = Math.max(...productos.map(p=>p.id),0)+1; }
-  else {
-    productos = [
-      // Esenciales
-      { id: nextId++, nombre: "Arroz", categoria: "esenciales", cantidad: 2, unidad: "kg", esencial: true, emoji: "🍚" },
-      { id: nextId++, nombre: "Frijoles", categoria: "esenciales", cantidad: 1, unidad: "kg", esencial: true, emoji: "🫘" },
-      { id: nextId++, nombre: "Aceite", categoria: "esenciales", cantidad: 1, unidad: "lt", esencial: true, emoji: "🫒" },
-      { id: nextId++, nombre: "Sal", categoria: "esenciales", cantidad: 1, unidad: "pz", esencial: true, emoji: "🧂" },
-      { id: nextId++, nombre: "Azúcar", categoria: "esenciales", cantidad: 1, unidad: "kg", esencial: true, emoji: "🍬" },
-      { id: nextId++, nombre: "Pasta", categoria: "esenciales", cantidad: 3, unidad: "pz", esencial: true, emoji: "🍝" },
-      { id: nextId++, nombre: "Harina", categoria: "esenciales", cantidad: 1, unidad: "kg", esencial: true, emoji: "🌾" },
-      { id: nextId++, nombre: "Miel", categoria: "esenciales", cantidad: 1, unidad: "pz", esencial: false, emoji: "🍯" },
-      // Agua
-      { id: nextId++, nombre: "Garrafón", categoria: "agua", cantidad: 2, unidad: "pz", esencial: true, emoji: "💧" },
-      // Frescos
-      { id: nextId++, nombre: "Huevos", categoria: "frescos", cantidad: 12, unidad: "pz", esencial: true, emoji: "🥚" },
-      { id: nextId++, nombre: "Leche", categoria: "lacteos", cantidad: 2, unidad: "lt", esencial: true, emoji: "🥛" },
-      { id: nextId++, nombre: "Yogurt", categoria: "lacteos", cantidad: 4, unidad: "pz", esencial: false, emoji: "🥛" },
-      { id: nextId++, nombre: "Pan", categoria: "frescos", cantidad: 1, unidad: "pz", esencial: false, emoji: "🍞" },
-      { id: nextId++, nombre: "Pollo", categoria: "proteinas", cantidad: 1, unidad: "kg", esencial: false, emoji: "🍗" },
-      { id: nextId++, nombre: "Pescado", categoria: "proteinas", cantidad: 1, unidad: "kg", esencial: false, emoji: "🐟" },
-      { id: nextId++, nombre: "Atún", categoria: "proteinas", cantidad: 2, unidad: "lata", esencial: false, emoji: "🐟" },
-      { id: nextId++, nombre: "Tomate", categoria: "frescos", cantidad: 6, unidad: "pz", esencial: false, emoji: "🍅" },
-      { id: nextId++, nombre: "Cebolla", categoria: "frescos", cantidad: 3, unidad: "pz", esencial: true, emoji: "🧅" },
-      { id: nextId++, nombre: "Ajo", categoria: "frescos", cantidad: 1, unidad: "cab", esencial: true, emoji: "🧄" },
-      { id: nextId++, nombre: "Pepino", categoria: "frescos", cantidad: 4, unidad: "pz", esencial: false, emoji: "🥒" },
-      { id: nextId++, nombre: "Zanahoria", categoria: "frescos", cantidad: 5, unidad: "pz", esencial: false, emoji: "🥕" },
-      { id: nextId++, nombre: "Espinaca", categoria: "frescos", cantidad: 2, unidad: "man", esencial: false, emoji: "🥬" },
-      { id: nextId++, nombre: "Broccoli", categoria: "frescos", cantidad: 2, unidad: "pz", esencial: false, emoji: "🥦" },
-      { id: nextId++, nombre: "Plátano", categoria: "frescos", cantidad: 6, unidad: "pz", esencial: false, emoji: "🍌" },
-      { id: nextId++, nombre: "Manzana", categoria: "frescos", cantidad: 4, unidad: "pz", esencial: false, emoji: "🍎" },
-      { id: nextId++, nombre: "Fresa", categoria: "frescos", cantidad: 1, unidad: "pz", esencial: false, emoji: "🍓" },
-      { id: nextId++, nombre: "Naranja", categoria: "frescos", cantidad: 5, unidad: "pz", esencial: false, emoji: "🍊" },
-      { id: nextId++, nombre: "Limón", categoria: "frescos", cantidad: 8, unidad: "pz", esencial: true, emoji: "🍋" },
-      { id: nextId++, nombre: "Aguacate", categoria: "frescos", cantidad: 3, unidad: "pz", esencial: false, emoji: "🥑" },
-      // Cereales & Legumbres
-      { id: nextId++, nombre: "Avena", categoria: "cereales", cantidad: 1, unidad: "kg", esencial: false, emoji: "🌾" },
-      { id: nextId++, nombre: "Quinoa", categoria: "cereales", cantidad: 1, unidad: "kg", esencial: false, emoji: "🌾" },
-      { id: nextId++, nombre: "Lentejas", categoria: "cereales", cantidad: 1, unidad: "kg", esencial: false, emoji: "🫘" },
-      { id: nextId++, nombre: "Garbanzo", categoria: "cereales", cantidad: 1, unidad: "kg", esencial: false, emoji: "🫘" },
-      { id: nextId++, nombre: "Chía", categoria: "cereales", cantidad: 1, unidad: "pz", esencial: false, emoji: "🌱" },
-      { id: nextId++, nombre: "Almendra", categoria: "cereales", cantidad: 1, unidad: "pz", esencial: false, emoji: "🥜" },
-      // Otros
-      { id: nextId++, nombre: "Café", categoria: "otros", cantidad: 1, unidad: "pz", esencial: false, emoji: "☕" },
-      { id: nextId++, nombre: "Cereal", categoria: "otros", cantidad: 2, unidad: "pz", esencial: false, emoji: "🥣" },
-      { id: nextId++, nombre: "Queso", categoria: "lacteos", cantidad: 1, unidad: "kg", esencial: false, emoji: "🧀" },
-      // Hogar
-      { id: nextId++, nombre: "Jabón", categoria: "hogar", cantidad: 2, unidad: "pz", esencial: true, emoji: "🧼" },
-      { id: nextId++, nombre: "Papel", categoria: "hogar", cantidad: 4, unidad: "pz", esencial: true, emoji: "🧻" },
-      { id: nextId++, nombre: "Detergente", categoria: "hogar", cantidad: 1, unidad: "pz", esencial: true, emoji: "🧴" },
-      { id: nextId++, nombre: "Cloro", categoria: "hogar", cantidad: 1, unidad: "pz", esencial: true, emoji: "🧴" }
-    ];
+  const saved = localStorage.getItem('nutrialfaro_v2_productos');
+  const savedList = localStorage.getItem('nutrialfaro_v2_compras');
+  const savedStats = localStorage.getItem('nutrialfaro_v2_stats');
+  if (saved) {
+    productos = JSON.parse(saved);
+    nextId = Math.max(...productos.map(p=>p.id),0)+1;
   }
   if (savedList) listaCompras = JSON.parse(savedList);
   if (savedStats) stats = JSON.parse(savedStats);
 }
 
 function saveData() {
-  localStorage.setItem('nutrialfaro_productos', JSON.stringify(productos));
-  localStorage.setItem('nutrialfaro_compras', JSON.stringify(listaCompras));
-  localStorage.setItem('nutrialfaro_stats', JSON.stringify(stats));
+  localStorage.setItem('nutrialfaro_v2_productos', JSON.stringify(productos));
+  localStorage.setItem('nutrialfaro_v2_compras', JSON.stringify(listaCompras));
+  localStorage.setItem('nutrialfaro_v2_stats', JSON.stringify(stats));
 }
 
 // ===== UTILS =====
@@ -822,6 +1392,20 @@ function spawnConfetti(x, y) {
   }
 }
 
+// ===== WELCOME / MOTIVATIONAL =====
+function showWelcome() {
+  const msg = MENSAJES_MARIA[Math.floor(Math.random() * MENSAJES_MARIA.length)];
+  document.getElementById('welcome-emoji').textContent = msg.emoji;
+  document.getElementById('welcome-title').textContent = msg.title;
+  document.getElementById('welcome-msg').textContent = msg.msg;
+  document.getElementById('welcome-from').textContent = '— ' + msg.from;
+  document.getElementById('welcome-overlay').classList.add('show');
+}
+
+function closeWelcome() {
+  document.getElementById('welcome-overlay').classList.remove('show');
+}
+
 // ===== NAV =====
 function showView(v) {
   document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
@@ -852,12 +1436,16 @@ function renderDashboard() {
   const bar = document.getElementById('health-bar');
   bar.style.width = pct + '%';
   bar.style.background = pct > 70 ? 'var(--positive)' : pct > 40 ? 'var(--warning)' : 'var(--danger)';
-  document.getElementById('health-text').textContent = pct > 80 ? 'Excelente 🌟' : pct > 50 ? 'Regular ⚡' : '¡María Nuri necesita ir de compras! 🚨';
+  document.getElementById('health-text').textContent = total === 0 ? 'Agrega productos, María 🥘' : pct > 80 ? 'Excelente 🌟' : pct > 50 ? 'Regular ⚡' : '¡María Nuri necesita ir de compras! 🚨';
 
   const alerts = document.getElementById('dash-alerts');
   const criticos = productos.filter(p => getEstado(p) !== 'ok');
   if (criticos.length === 0) {
-    alerts.innerHTML = '<div class="critical-alert success"><span>🎉</span><div><div>¡Todo bajo control!</div><small>La despensa Alfaro Sánchez está en perfecto estado — María Nuri está feliz</small></div></div>';
+    if (total === 0) {
+      alerts.innerHTML = '<div class="critical-alert success"><span>🥘</span><div><div>¡Bienvenida, María Nuri!</div><small>Toca "Agregar productos" para empezar tu despensa</small></div></div>';
+    } else {
+      alerts.innerHTML = '<div class="critical-alert success"><span>🎉</span><div><div>¡Todo bajo control!</div><small>La despensa Alfaro Sánchez está en perfecto estado — María Nuri está feliz</small></div></div>';
+    }
   } else {
     alerts.innerHTML = criticos.slice(0, 3).map(p => {
       const e = getEstado(p);
@@ -880,6 +1468,16 @@ function renderDespensa() {
     hogar: { icon: "🧼", name: "Hogar" },
     otros: { icon: "🍿", name: "Otros" }
   };
+
+  const container = document.getElementById('despensa-content');
+  const empty = document.getElementById('despensa-empty');
+
+  if (productos.length === 0) {
+    container.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
 
   let html = '';
   for (const [key, info] of Object.entries(cats)) {
@@ -909,7 +1507,7 @@ function renderDespensa() {
     });
     html += '</div></div>';
   }
-  document.getElementById('despensa-content').innerHTML = html;
+  container.innerHTML = html;
 }
 
 function showProductMsg(nombre, e) {
@@ -965,7 +1563,7 @@ function renderCompras() {
   const container = document.getElementById('compras-content');
   const btn = document.getElementById('btn-share');
   if (listaCompras.length === 0) {
-    container.innerHTML = '<div class="empty-state"><span>🎉</span><p>¡No hay nada en la lista!<br>María Nuri tiene la despensa completa.</p></div>';
+    container.innerHTML = '<div class="empty-state"><span>🎉</span><p>¡No hay nada en la lista, María!</p><small>Toca "¿Qué se acabó?" para marcar lo que falta</small></div>';
     btn.style.display = 'none';
     return;
   }
@@ -1019,7 +1617,7 @@ function openShareModal() {
     const p = productos.find(x => x.id === id);
     return p ? `<div class="share-item">${p.emoji} ${p.nombre} (${p.unidad}) ${p.esencial?'• Esencial':''}</div>` : '';
   }).join('');
-  const date = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const date = new Date().toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   preview.innerHTML = `<h3>📝 Lista del ${date}</h3>${items}<div class="share-footer">Lista preparada por 👩‍🍳 María Nuri Sánchez<br>Familia Alfaro Sánchez — Víctor Manuel, Manuel y Víctor Hugo 💚</div>`;
   document.getElementById('modal-share').classList.add('show');
 }
@@ -1028,7 +1626,7 @@ function closeShareModal() {
   document.getElementById('modal-share').classList.remove('show');
 }
 
-// ===== ADD PRODUCT =====
+// ===== ADD PRODUCT MANUAL =====
 function openAddModal() {
   document.getElementById('modal-add').classList.add('show');
   setTimeout(() => document.getElementById('add-nombre').focus(), 100);
@@ -1047,7 +1645,7 @@ function addProduct() {
   const cant = parseInt(document.getElementById('add-cantidad').value) || 1;
   const unidad = document.getElementById('add-unidad').value.trim() || 'pz';
   const esencial = document.getElementById('add-esencial').checked;
-  if (!nombre) { showToast('Escribe un nombre para el producto'); return; }
+  if (!nombre) { showToast('Escribe un nombre para el producto, María'); return; }
 
   const emojis = { esenciales: "🥘", agua: "💧", frescos: "🥬", proteinas: "🥩", lacteos: "🥛", cereales: "🌾", hogar: "🧼", otros: "🍿" };
   productos.push({ id: nextId++, nombre, categoria: cat, cantidad: cant, unidad, esencial, emoji: emojis[cat] || "📦" });
@@ -1058,6 +1656,147 @@ function addProduct() {
   renderDashboard();
 }
 
+// ===== CATALOG MODAL =====
+function openCatalogModal() {
+  catalogSelected = new Set();
+  const container = document.getElementById('catalog-content');
+  const cats = {};
+  CATALOG.forEach(item => {
+    if (!cats[item.categoria]) cats[item.categoria] = [];
+    cats[item.categoria].push(item);
+  });
+
+  let html = '';
+  const catNames = { esenciales: "🥘 Esenciales", agua: "💧 Agua", frescos: "🥬 Frescos", proteinas: "🥩 Proteínas", lacteos: "🥛 Lácteos", cereales: "🌾 Cereales", hogar: "🧼 Hogar", otros: "🍿 Otros" };
+  for (const [cat, items] of Object.entries(cats)) {
+    html += `<div style="margin-bottom:16px;"><div style="font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:8px;">${catNames[cat] || cat}</div><div class="catalog-grid">`;
+    items.forEach((item, idx) => {
+      const key = cat + '-' + idx;
+      html += `<div class="catalog-item" id="cat-${key}" onclick="toggleCatalogItem('${key}', '${item.nombre}', '${item.categoria}', '${item.emoji}', ${item.esencial}, '${item.unidad}')">
+        <span class="catalog-emoji">${item.emoji}</span>
+        <div>${item.nombre}</div>
+      </div>`;
+    });
+    html += '</div></div>';
+  }
+  container.innerHTML = html;
+  document.getElementById('modal-catalog').classList.add('show');
+}
+
+function closeCatalogModal() {
+  document.getElementById('modal-catalog').classList.remove('show');
+}
+
+function toggleCatalogItem(key, nombre, categoria, emoji, esencial, unidad) {
+  const el = document.getElementById('cat-' + key);
+  if (catalogSelected.has(key)) {
+    catalogSelected.delete(key);
+    el.classList.remove('selected');
+  } else {
+    catalogSelected.add({ nombre, categoria, emoji, esencial, unidad });
+    el.classList.add('selected');
+  }
+}
+
+function addSelectedFromCatalog() {
+  const selected = Array.from(catalogSelected).filter(x => typeof x === 'object');
+  if (selected.length === 0) { showToast('María, selecciona al menos un producto'); return; }
+
+  selected.forEach(item => {
+    productos.push({ id: nextId++, nombre: item.nombre, categoria: item.categoria, cantidad: 1, unidad: item.unidad, esencial: item.esencial, emoji: item.emoji });
+  });
+
+  showToast(`✅ ${selected.length} productos agregados — ¡María Nuri organiza todo!`);
+  closeCatalogModal();
+  saveData();
+  renderDespensa();
+  renderDashboard();
+}
+
+// ===== OUT OF STOCK MODAL =====
+function openOutOfStockModal() {
+  outstockSelected = new Set();
+  const container = document.getElementById('outstock-content');
+
+  if (productos.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-tertiary);"><span style="font-size:32px;display:block;margin-bottom:8px;">🥘</span><p>La despensa está vacía, María</p><small>Agrega productos primero</small></div>';
+    document.getElementById('modal-out').classList.add('show');
+    return;
+  }
+
+  let html = '<div style="font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:12px;">Toca lo que se acabó o está por acabarse:</div><div class="catalog-grid">';
+  productos.forEach(p => {
+    const est = getEstado(p);
+    const warning = est === 'agotado' ? ' 🔴' : est === 'bajo' ? ' 🟡' : '';
+    html += `<div class="catalog-item ${est === 'agotado' ? 'agotado' : ''}" id="out-${p.id}" onclick="toggleOutStock(${p.id})">
+      <span class="catalog-emoji">${p.emoji}</span>
+      <div>${p.nombre}${warning}</div>
+      <div style="font-size:11px;color:var(--text-tertiary);">${p.cantidad} ${p.unidad}</div>
+    </div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+  document.getElementById('modal-out').classList.add('show');
+}
+
+function closeOutOfStockModal() {
+  document.getElementById('modal-out').classList.remove('show');
+}
+
+function toggleOutStock(id) {
+  const el = document.getElementById('out-' + id);
+  if (outstockSelected.has(id)) {
+    outstockSelected.delete(id);
+    el.classList.remove('selected');
+  } else {
+    outstockSelected.add(id);
+    el.classList.add('selected');
+  }
+}
+
+function markSelectedOutOfStock() {
+  if (outstockSelected.size === 0) { showToast('María, selecciona lo que se acabó'); return; }
+
+  outstockSelected.forEach(id => {
+    const p = productos.find(x => x.id === id);
+    if (p) {
+      p.cantidad = 0;
+      if (!listaCompras.includes(id)) listaCompras.push(id);
+    }
+  });
+
+  showToast(`🚨 ${outstockSelected.size} productos marcados como agotados — María Nuri los añadió a la lista`);
+  closeOutOfStockModal();
+  saveData();
+  renderDespensa();
+  renderCompras();
+  updateBadge();
+  renderDashboard();
+}
+
+// ===== RESET MONTH =====
+function confirmResetMonth() {
+  document.getElementById('modal-reset').classList.add('show');
+}
+
+function closeResetModal() {
+  document.getElementById('modal-reset').classList.remove('show');
+}
+
+function resetMonth() {
+  productos = [];
+  listaCompras = [];
+  nextId = 1;
+  stats = { racha: 0, nivel: 1, productosGestionados: 0, recetasChef: 0 };
+  saveData();
+  closeResetModal();
+  showToast('🔄 Nuevo mes iniciado — ¡Vamos de mercado, María Nuri!');
+  renderDashboard();
+  renderDespensa();
+  renderCompras();
+  updateBadge();
+}
+
 // ===== RECETAS =====
 function renderRecetas() {
   const disponibles = new Set(productos.filter(p => getEstado(p) === 'ok').map(p => p.nombre));
@@ -1066,16 +1805,19 @@ function renderRecetas() {
   const posibles = RECETAS.filter(r => r.ingredientes.some(ing => disponibles.has(ing)));
 
   if (posibles.length === 0) {
-    container.innerHTML = '<div class="empty-state"><span>👩‍🍳</span><p>María Nuri necesita más ingredientes<br>¡Reabastece la despensa para ver sus recetas!</p></div>';
+    container.innerHTML = '<div class="empty-state"><span>👩‍🍳</span><p>María Nuri necesita más ingredientes</p><small>Agrega productos a la despensa para ver recetas que puedes hacer</small></div>';
     return;
   }
+
+  stats.recetasChef = posibles.length;
+  saveData();
 
   container.innerHTML = posibles.map(r => {
     const tiene = r.ingredientes.filter(ing => disponibles.has(ing));
     const falta = r.ingredientes.filter(ing => !disponibles.has(ing));
-    const cardClass = r.tipo === 'chef' ? 'chef-pick' : r.tipo === 'family' ? 'family-fav' : '';
-    const badgeClass = r.tipo === 'chef' ? 'badge-chef' : r.tipo === 'family' ? 'badge-family' : 'badge-healthy';
-    const badgeText = r.tipo === 'chef' ? '👩‍🍳 María Nuri' : r.tipo === 'family' ? '❤️ Familia' : '🥗 Saludable';
+    const cardClass = r.tipo === 'chef' ? 'chef-pick' : r.tipo === 'family' ? 'family-fav' : r.tipo === 'colombia' ? 'colombia' : '';
+    const badgeClass = r.tipo === 'chef' ? 'badge-chef' : r.tipo === 'family' ? 'badge-family' : r.tipo === 'colombia' ? 'badge-colombia' : 'badge-healthy';
+    const badgeText = r.tipo === 'chef' ? '👩‍🍳 María Nuri' : r.tipo === 'family' ? '❤️ Familia' : r.tipo === 'colombia' ? '🇨🇴 Colombia' : '🥗 Saludable';
     return `<div class="recipe-card ${cardClass}" onclick="showToast('${getMensaje(tiene[0]||'Arroz')}')">
       <div class="recipe-header">
         <div class="recipe-title">${r.emoji} ${r.nombre}</div>
@@ -1097,6 +1839,13 @@ function renderRecetas() {
 initData();
 renderDashboard();
 updateBadge();
+
+// Show welcome message on first load or randomly
+if (stats.racha === 0 && productos.length === 0) {
+  setTimeout(showWelcome, 800);
+} else if (Math.random() > 0.7) {
+  setTimeout(showWelcome, 1500);
+}
 </script>
 </body>
 </html>
