@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>NutriAlfaro — Despensa Familiar</title>
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --surface-raised: #ffffff;
+      --surface-muted: #f2f2f7;
+      --surface-strong: #e5e5ea;
+      --border: #d1d1d6;
+      --text-primary: #1c1c1e;
+      --text-secondary: #636366;
+      --text-tertiary: #8e8e93;
+      --text-quaternary: #c7c7cc;
+      --accent: #007aff;
+      --positive: #34c759;
+      --warning: #ff9500;
+      --danger: #ff3b30;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --surface: #1c1c1e;
+        --surface-raised: #2c2c2e;
+        --surface-muted: #3a3a3c;
+        --surface-strong: #48484a;
+        --border: #38383a;
+        --text-primary: #ffffff;
+        --text-secondary: #aeaeb2;
+        --text-tertiary: #8e8e93;
+        --text-quaternary: #636366;
+        --accent: #0a84ff;
+        --positive: #30d158;
+        --warning: #ff9f0a;
+        --danger: #ff453a;
+      }
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; }
+    .app { max-width: 480px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 80px; }
+    
+    /* Header */
+    .header { padding: 20px 16px 12px; text-align: center; position: sticky; top: 0; background: var(--bg); z-index: 10; backdrop-filter: blur(20px); }
+    .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    .header p { font-size: 13px; color: var(--text-tertiary); margin-top: 2px; }
+    .family-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 14px; border-radius: 999px; background: var(--surface-raised); border: 1px solid var(--border); font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+    
+    /* Tabs */
+    .tabs { display: flex; gap: 4px; padding: 8px 12px; position: sticky; top: 70px; background: var(--bg); z-index: 10; }
+    .tab { flex: 1; padding: 10px 4px; border-radius: var(--radius-md); border: none; background: transparent; font-size: 12px; font-weight: 600; color: var(--text-tertiary); cursor: pointer; transition: all 0.2s; position: relative; font-family: inherit; }
+    .tab.active { background: var(--surface-raised); color: var(--text-primary); box-shadow: var(--shadow); }
+    .tab-badge { position: absolute; top: 2px; right: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--danger); color: white; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    
+    /* Views */
+    .view { display: none; padding: 12px; animation: fadeIn 0.3s ease; }
+    .view.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* Dashboard */
+    .health-card { background: var(--surface-raised); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 12px; border: 1px solid var(--border); }
+    .health-bar-bg { height: 10px; background: var(--surface-muted); border-radius: 5px; overflow: hidden; margin: 10px 0; }
+    .health-bar-fill { height: 100%; border-radius: 5px; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .stat-box { background: var(--surface-raised); border-radius: var(--radius-lg); padding: 16px; text-align: center; border: 1px solid var(--border); transition: transform 0.2s; }
+    .stat-box:active { transform: scale(0.97); }
+    .stat-value { font-size: 32px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; line-height: 1; }
+    .stat-label { font-size: 12px; color: var(--text-tertiary); margin-top: 6px; font-weight: 500; }
+    .critical-alert { background: var(--surface-raised); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; transition: all 0.2s; }
+    .critical-alert:active { transform: scale(0.98); }
+    .critical-alert.danger { border-color: var(--danger); background: rgba(255,59,48,0.06); }
+    .critical-alert.warning { border-color: var(--warning); background: rgba(255,149,0,0.06); }
+    .critical-alert.success { border-color: var(--positive); background: rgba(52,199,89,0.06); }
+    .critical-alert span { font-size: 24px; flex-shrink: 0; }
+    .critical-alert div { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .critical-alert small { font-size: 12px; color: var(--text-tertiary); font-weight: 400; }
+    
+    /* Product Grid */
+    .category-section { margin-bottom: 20px; }
+    .category-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .category-title { font-size: 15px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 6px; }
+    .category-count { font-size: 12px; color: var(--text-tertiary); font-weight: 500; background: var(--surface-muted); padding: 2px 8px; border-radius: 999px; }
+    .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .product-card { background: var(--surface-raised); border-radius: var(--radius-lg); padding: 14px 8px; text-align: center; cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; border: 2px solid transparent; user-select: none; touch-action: manipulation; }
+    .product-card:active { transform: scale(0.92); }
+    .product-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .product-card.agotado { opacity: 0.55; border-color: var(--danger); background: rgba(255,59,48,0.04); }
+    .product-card.bajo { border-color: var(--warning); background: rgba(255,149,0,0.04); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,149,0,0.2); } 50% { box-shadow: 0 0 0 4px rgba(255,149,0,0); } }
+    .product-emoji { font-size: 32px; display: block; margin-bottom: 6px; line-height: 1; }
+    .product-name { font-size: 12px; color: var(--text-primary); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px; }
+    .product-qty { font-size: 11px; color: var(--text-tertiary); margin-top: 3px; font-weight: 500; }
+    .product-status { position: absolute; top: 6px; right: 6px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--surface-raised); }
+    .status-ok { background: var(--positive); }
+    .status-bajo { background: var(--warning); }
+    .status-agotado { background: var(--danger); }
+    .product-actions { display: flex; justify-content: center; gap: 6px; margin-top: 8px; opacity: 0; transition: opacity 0.2s; }
+    .product-card:hover .product-actions, .product-card:focus-within .product-actions { opacity: 1; }
+    .btn-icon { width: 28px; height: 28px; border-radius: 8px; border: none; background: var(--surface-muted); cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; color: var(--text-primary); }
+    .btn-icon:active { transform: scale(0.85); }
+    .btn-icon:hover { background: var(--surface-strong); }
+    .btn-cart { background: rgba(0,122,255,0.12); color: var(--accent); }
+    .btn-cart:hover { background: rgba(0,122,255,0.2); }
+    .btn-danger { background: rgba(255,59,48,0.1); color: var(--danger); }
+    
+    /* Shopping List */
+    .shop-item { display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--surface-raised); border-radius: var(--radius-lg); margin-bottom: 8px; transition: all 0.2s; border: 1px solid var(--border); touch-action: manipulation; }
+    .shop-item:active { transform: scale(0.98); }
+    .shop-item.checked { opacity: 0.5; background: var(--surface-muted); }
+    .shop-check { width: 24px; height: 24px; border-radius: 8px; border: 2px solid var(--border); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; background: var(--surface); }
+    .shop-check.checked { background: var(--positive); border-color: var(--positive); }
+    .shop-check.checked::after { content: "✓"; color: white; font-size: 14px; font-weight: 800; }
+    .shop-info { flex: 1; min-width: 0; }
+    .shop-name { font-size: 15px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .shop-meta { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .shop-priority { padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.5px; }
+    .priority-esencial { background: rgba(255,59,48,0.1); color: var(--danger); }
+    .priority-normal { background: var(--surface-muted); color: var(--text-tertiary); }
+    .btn-share { width: 100%; padding: 16px; border-radius: var(--radius-lg); border: none; background: var(--text-primary); color: var(--bg); font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-share:active { transform: scale(0.97); opacity: 0.9; }
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-tertiary); }
+    .empty-state span { font-size: 48px; display: block; margin-bottom: 12px; }
+    .empty-state p { font-size: 15px; font-weight: 500; line-height: 1.5; }
+    
+    /* Recipes */
+    .recipe-card { background: var(--surface-raised); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; border: 1px solid var(--border); border-left: 4px solid var(--positive); touch-action: manipulation; }
+    .recipe-card:active { transform: scale(0.98); }
+    .recipe-card:hover { box-shadow: var(--shadow); }
+    .recipe-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+    .recipe-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .recipe-tags { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+    .recipe-tag { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; background: var(--surface-muted); color: var(--text-secondary); }
+    .recipe-tag.success { background: rgba(52,199,89,0.1); color: var(--positive); }
+    .recipe-tag.warning { background: rgba(255,149,0,0.1); color: var(--warning); }
+    
+    /* Toast */
+    .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(120px); background: var(--surface-strong); color: var(--text-primary); padding: 14px 24px; border-radius: var(--radius-xl); font-size: 14px; font-weight: 600; box-shadow: var(--shadow-lg); z-index: 1000; opacity: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); max-width: 90%; text-align: center; pointer-events: none; border: 1px solid var(--border); backdrop-filter: blur(10px); }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    
+    /* Modals */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.2s; }
+    .modal-overlay.show { display: flex; }
+    .modal-card { background: var(--surface); border-radius: var(--radius-xl); padding: 24px; max-width: 400px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); border: 1px solid var(--border); animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .modal-card .sub { font-size: 13px; color: var(--text-tertiary); margin-bottom: 20px; }
+    .share-preview { background: var(--surface-muted); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 20px; text-align: left; border: 1px solid var(--border); }
+    .share-preview h3 { font-size: 15px; margin-bottom: 12px; color: var(--text-primary); font-weight: 700; }
+    .share-item { font-size: 14px; padding: 6px 0; color: var(--text-secondary); display: flex; align-items: center; gap: 8px; font-weight: 500; }
+    .share-item::before { content: "☐"; color: var(--text-quaternary); font-size: 16px; }
+    .share-footer { font-size: 12px; color: var(--text-tertiary); margin-top: 12px; text-align: center; font-weight: 500; }
+    .btn-close { padding: 12px 28px; border-radius: var(--radius-md); border: none; background: var(--text-primary); color: var(--bg); font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .btn-close:active { transform: scale(0.95); }
+    .input-field { width: 100%; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--surface-raised); color: var(--text-primary); font-size: 15px; margin-bottom: 10px; outline: none; font-family: inherit; transition: all 0.2s; }
+    .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
+    .select-field { width: 100%; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--surface-raised); color: var(--text-primary); font-size: 15px; margin-bottom: 10px; outline: none; font-family: inherit; cursor: pointer; }
+    .btn-primary { width: 100%; padding: 14px; border-radius: var(--radius-md); border: none; background: var(--accent); color: white; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+    .btn-primary:active { transform: scale(0.97); opacity: 0.9; }
+    .btn-secondary { width: 100%; padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border); background: transparent; color: var(--text-primary); font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 10px; font-family: inherit; transition: all 0.2s; }
+    .btn-secondary:active { background: var(--surface-muted); }
+    .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; font-size: 14px; color: var(--text-secondary); font-weight: 500; cursor: pointer; }
+    .checkbox-row input { width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer; }
+    
+    /* FAB */
+    .fab { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: var(--accent); color: white; border: none; font-size: 28px; cursor: pointer; box-shadow: 0 4px 20px rgba(0,122,255,0.35); z-index: 100; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; justify-content: center; font-weight: 300; }
+    .fab:active { transform: scale(0.88); }
+    .fab:hover { transform: scale(1.05); box-shadow: 0 6px 24px rgba(0,122,255,0.45); }
+    
+    /* Confetti */
+    .confetti { position: fixed; pointer-events: none; z-index: 3000; width: 10px; height: 10px; border-radius: 50%; animation: confetti-fall 1s ease-out forwards; }
+    @keyframes confetti-fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(200px) rotate(720deg); opacity: 0; } }
+    
+    /* Drag hint */
+    .drag-hint { text-align: center; font-size: 11px; color: var(--text-quaternary); margin-top: 8px; font-weight: 500; }
+    
+    /* Responsive */
+    @media (min-width: 768px) { .app { max-width: 520px; } .product-grid { grid-template-columns: repeat(4, 1fr); } }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <div class="header">
+      <h1>🥑 NutriAlfaro</h1>
+      <p>La despensa saludable de tu familia</p>
+      <div class="family-badge">👨‍👩‍👧‍👦 Familia Alfaro Sánchez • 4 miembros</div>
+    </div>
+    
+    <div class="tabs">
+      <button class="tab active" onclick="showView('dashboard')" id="tab-dashboard">📊 Dashboard</button>
+      <button class="tab" onclick="showView('despensa')" id="tab-despensa">🥘 Despensa</button>
+      <button class="tab" onclick="showView('compras')" id="tab-compras">🛒 Compras<span class="tab-badge" id="badge-compras" style="display:none">0</span></button>
+      <button class="tab" onclick="showView('recetas')" id="tab-recetas">👨‍🍳 Recetas</button>
+    </div>
+    
+    <!-- DASHBOARD -->
+    <div class="view active" id="view-dashboard">
+      <div class="health-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span style="font-size:15px; font-weight:700;">Salud de la despensa</span>
+          <span style="font-size:12px; color:var(--text-tertiary); font-weight:600;" id="health-text">Excelente</span>
+        </div>
+        <div class="health-bar-bg"><div class="health-bar-fill" id="health-bar" style="width:85%; background:var(--positive);"></div></div>
+        <div style="display:flex; justify-content:space-between; margin-top:12px;">
+          <div style="text-align:center;"><div style="font-size:24px; font-weight:700;" id="dash-total">0</div><div style="font-size:11px; color:var(--text-tertiary); font-weight:500;">Productos</div></div>
+          <div style="text-align:center;"><div style="font-size:24px; font-weight:700; color:var(--warning);" id="dash-bajos">0</div><div style="font-size:11px; color:var(--text-tertiary); font-weight:500;">Agotándose</div></div>
+          <div style="text-align:center;"><div style="font-size:24px; font-weight:700; color:var(--danger);" id="dash-agotados">0</div><div style="font-size:11px; color:var(--text-tertiary); font-weight:500;">Agotados</div></div>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-value" id="dash-racha">🔥5</div><div class="stat-label">Días ordenados</div></div>
+        <div class="stat-box"><div class="stat-value" id="dash-nivel">⭐3</div><div class="stat-label">Nivel familia</div></div>
+      </div>
+      <div id="dash-alerts"></div>
+    </div>
+    
+    <!-- DESPENSA -->
+    <div class="view" id="view-despensa">
+      <div id="despensa-content"></div>
+      <div class="drag-hint">💡 Toca cualquier producto para ver un mensaje divertido</div>
+    </div>
+    
+    <!-- COMPRAS -->
+    <div class="view" id="view-compras">
+      <div id="compras-content"></div>
+      <button class="btn-share" onclick="openShareModal()" id="btn-share" style="display:none;">📤 Compartir lista de compras</button>
+    </div>
+    
+    <!-- RECETAS -->
+    <div class="view" id="view-recetas">
+      <div id="recetas-content"></div>
+    </div>
+    
+    <button class="fab" onclick="openAddModal()">+</button>
+  </div>
+  
+  <div class="toast" id="toast"></div>
+  
+  <!-- SHARE MODAL -->
+  <div class="modal-overlay" id="modal-share" onclick="if(event.target===this)closeShareModal()">
+    <div class="modal-card">
+      <h2>🛒 Lista de Compras</h2>
+      <p class="sub">Familia Alfaro Sánchez</p>
+      <div class="share-preview" id="share-preview"></div>
+      <button class="btn-close" onclick="closeShareModal()">Cerrar</button>
+    </div>
+  </div>
+  
+  <!-- ADD MODAL -->
+  <div class="modal-overlay" id="modal-add" onclick="if(event.target===this)closeAddModal()">
+    <div class="modal-card" style="text-align:left;">
+      <h2 style="text-align:center;">➕ Agregar Producto</h2>
+      <p class="sub" style="text-align:center;">A la despensa Alfaro</p>
+      <input class="input-field" id="add-nombre" placeholder="Nombre del producto (ej: Avena)" />
+      <select class="select-field" id="add-categoria">
+        <option value="esenciales">🥘 Esenciales</option>
+        <option value="agua">💧 Agua</option>
+        <option value="frescos">🥬 Frescos</option>
+        <option value="hogar">🧼 Hogar</option>
+        <option value="otros">🍿 Otros</option>
+      </select>
+      <div style="display:flex; gap:8px;">
+        <input class="input-field" id="add-cantidad" type="number" placeholder="Cantidad" style="flex:1;" value="1" min="0" />
+        <input class="input-field" id="add-unidad" placeholder="Unidad" style="flex:1;" value="pz" />
+      </div>
+      <label class="checkbox-row"><input type="checkbox" id="add-esencial" /> Esencial del hogar</label>
+      <button class="btn-primary" onclick="addProduct()">Agregar a la despensa</button>
+      <button class="btn-secondary" onclick="closeAddModal()">Cancelar</button>
+    </div>
+  </div>
+
+<script>
+// ===== MENSAJES DIVERTIDOS POR PRODUCTO =====
+const MENSAJES = {
+  "Arroz": ["¡Arroz con pollo esta noche? ¡La familia lo agradecerá! 🍗", "¿Un arroz frito rápido? ¡Delicia asiática! 🍚", "Arroz = amor en cada grano ❤️"],
+  "Huevos": ["¡Estos huevos quedarían espectaculares revueltos! 🍳", "¿Huevos rancheros para el desayuno? ¡Claro que sí! 🌮", "Un huevo al día mantiene al doctor lejos... o algo así 🥚"],
+  "Aceite": ["Con este aceite hasta una ensalada es fiesta 🥗✨", "¿Un sofrito que huela a hogar? ¡El secreto está aquí! 🏠", "Aceite de oliva = oro líquido 🫒"],
+  "Leche": ["¿Un atolito calientito? ¡La abuela aprobaría! 🥛", "Leche con cereal = desayuno de campeones 🏆", "¿Un licuado de frutas? ¡Hidratación y sabor! 🥤"],
+  "Pan": ["¡Pan tostado con mantequilla nunca falla! 🍞", "¿Sándwich familiar para la cena? ¡Rápido y rico! 🥪", "Pan fresco = felicidad instantánea 😊"],
+  "Azúcar": ["¿Un postrecito endulza la vida! 🍰", "¡Azúcar para el café de la tarde! ☕", "La vida es mejor con un poco de dulzura 🍬"],
+  "Sal": ["Sin sal no hay sabor... ¡ni vida! 🧂", "¿Unos elotes con sal y limón? ¡Delicia mexicana! 🌽", "La sal es el alma de la cocina 👨‍🍳"],
+  "Frijoles": ["¡Frijoles charros para el almuerzo! 🫘", "¿Unos frijoles refritos con queso? ¡Comfort food! 🤤", "Frijoles de la olla = sabor a hogar 🏡"],
+  "Pasta": ["¡Pasta al pesto en 15 minutos! 🍝", "¿Espagueti a la boloñesa familiar? ¡Todos contentos! 🍅", "Pasta rápida para días ocupados ⚡"],
+  "Garrafón": ["¡Hidratación nivel Alfaro! 💧 ¿Ya tomaste agua hoy?", "Sin agua no hay fiesta... ¡ni vida! 💦", "¡Mantén a la familia hidratada! 🌊"],
+  "Café": ["¡El café huele a productividad! ☕", "¿Un cafecito para la plática familiar? ¡Perfecto! ☕", "Café recién hecho = buenos días ☀️"],
+  "Pollo": ["¡Pollo al horno = domingo feliz! 🍗", "¿Unas pechugas a la plancha sanitas? 💪", "Pollo + especias = cena ganadora 🏆"],
+  "Harina": ["¿Unas tortillas calientitas? ¡Nada mejor! 🌮", "Harina para hotcakes el domingo 🥞", "Con harina se hace magia en la cocina ✨"],
+  "Jabón": ["¡Jabón fresco = casa limpia! 🧼", "La limpieza también es amor 💚", "Jabón de olor rico = baño spa 🛁"],
+  "Papel": ["¡Nunca falte el papel! 🧻", "Papel higiénico = paz mental 🕊️", "Stock de papel = familia preparada ✅"],
+  "Tomate": ["¡Tomates frescos para una salsa! 🍅", "¿Ensalada caprese? ¡Frescura italiana! 🇮🇹", "Tomate maduro = sabor intenso 👌"],
+  "Queso": ["¡Queso derretido = felicidad! 🧀", "¿Unas quesadillas rápidas? 🌮", "Queso fresco para todo 🥗"],
+  "Cereal": ["Cereal crujiente para empezar el día 🥣", "¿Cereal con leche fría? ¡Clásico! 🥛", "Desayuno en 2 minutos = ganar tiempo ⏱️"]
+};
+
+// ===== RECETAS =====
+const RECETAS = [
+  { nombre: "Arroz con Pollo Familiar", desc: "Arroz, pollo, zanahoria y chícharos. ¡Un clásico que rinde para 4!", ingredientes: ["Arroz", "Pollo", "Zanahoria"], tiempo: "45 min", dificultad: "Fácil", emoji: "🍗" },
+  { nombre: "Desayuno Revuelto Especial", desc: "Huevos revueltos con jamón, acompañados de pan tostado y café.", ingredientes: ["Huevos", "Pan", "Café"], tiempo: "15 min", dificultad: "Fácil", emoji: "🍳" },
+  { nombre: "Ensalada de la Casa", desc: "Lechuga, tomate, pepino, aceite de oliva y un toque de sal.", ingredientes: ["Aceite", "Sal", "Tomate"], tiempo: "10 min", dificultad: "Fácil", emoji: "🥗" },
+  { nombre: "Sopa de Frijoles", desc: "Frijoles, agua, sal y un toque de cilantro. ¡Confort en bowl!", ingredientes: ["Frijoles", "Sal", "Agua"], tiempo: "30 min", dificultad: "Fácil", emoji: "🫘" },
+  { nombre: "Pasta Rápida", desc: "Pasta con mantequilla, sal y queso rallado. ¡Niños felices!", ingredientes: ["Pasta", "Sal", "Queso"], tiempo: "20 min", dificultad: "Fácil", emoji: "🍝" },
+  { nombre: "Tortillas de Harina", desc: "Harina, sal y agua. ¡Calientitas de la comal!", ingredientes: ["Harina", "Sal", "Agua"], tiempo: "25 min", dificultad: "Media", emoji: "🌮" },
+  { nombre: "Quesadillas Express", desc: "Tortillas con queso derretido. ¡Snack perfecto!", ingredientes: ["Queso", "Aceite"], tiempo: "10 min", dificultad: "Fácil", emoji: "🧀" }
+];
+
+// ===== DATA =====
+let productos = [];
+let listaCompras = [];
+let nextId = 1;
+let stats = { racha: 5, nivel: 3, productosGestionados: 0 };
+
+function initData() {
+  const saved = localStorage.getItem('nutrialfaro_productos');
+  const savedList = localStorage.getItem('nutrialfaro_compras');
+  const savedStats = localStorage.getItem('nutrialfaro_stats');
+  if (saved) { productos = JSON.parse(saved); nextId = Math.max(...productos.map(p=>p.id),0)+1; }
+  else {
+    productos = [
+      { id: nextId++, nombre: "Arroz", categoria: "esenciales", cantidad: 2, unidad: "kg", esencial: true, emoji: "🍚" },
+      { id: nextId++, nombre: "Frijoles", categoria: "esenciales", cantidad: 1, unidad: "kg", esencial: true, emoji: "🫘" },
+      { id: nextId++, nombre: "Aceite", categoria: "esenciales", cantidad: 1, unidad: "lt", esencial: true, emoji: "🫒" },
+      { id: nextId++, nombre: "Sal", categoria: "esenciales", cantidad: 1, unidad: "pz", esencial: true, emoji: "🧂" },
+      { id: nextId++, nombre: "Azúcar", categoria: "esenciales", cantidad: 1, unidad: "kg", esencial: true, emoji: "🍬" },
+      { id: nextId++, nombre: "Pasta", categoria: "esenciales", cantidad: 3, unidad: "pz", esencial: true, emoji: "🍝" },
+      { id: nextId++, nombre: "Harina", categoria: "esenciales", cantidad: 1, unidad: "kg", esencial: true, emoji: "🌾" },
+      { id: nextId++, nombre: "Garrafón", categoria: "agua", cantidad: 2, unidad: "pz", esencial: true, emoji: "💧" },
+      { id: nextId++, nombre: "Huevos", categoria: "frescos", cantidad: 12, unidad: "pz", esencial: true, emoji: "🥚" },
+      { id: nextId++, nombre: "Leche", categoria: "frescos", cantidad: 2, unidad: "lt", esencial: true, emoji: "🥛" },
+      { id: nextId++, nombre: "Pan", categoria: "frescos", cantidad: 1, unidad: "pz", esencial: false, emoji: "🍞" },
+      { id: nextId++, nombre: "Pollo", categoria: "frescos", cantidad: 1, unidad: "kg", esencial: false, emoji: "🍗" },
+      { id: nextId++, nombre: "Café", categoria: "otros", cantidad: 1, unidad: "pz", esencial: false, emoji: "☕" },
+      { id: nextId++, nombre: "Jabón", categoria: "hogar", cantidad: 2, unidad: "pz", esencial: true, emoji: "🧼" },
+      { id: nextId++, nombre: "Papel", categoria: "hogar", cantidad: 4, unidad: "pz", esencial: true, emoji: "🧻" },
+      { id: nextId++, nombre: "Tomate", categoria: "frescos", cantidad: 6, unidad: "pz", esencial: false, emoji: "🍅" },
+      { id: nextId++, nombre: "Queso", categoria: "frescos", cantidad: 1, unidad: "kg", esencial: false, emoji: "🧀" },
+      { id: nextId++, nombre: "Cereal", categoria: "otros", cantidad: 2, unidad: "pz", esencial: false, emoji: "🥣" }
+    ];
+  }
+  if (savedList) listaCompras = JSON.parse(savedList);
+  if (savedStats) stats = JSON.parse(savedStats);
+}
+
+function saveData() {
+  localStorage.setItem('nutrialfaro_productos', JSON.stringify(productos));
+  localStorage.setItem('nutrialfaro_compras', JSON.stringify(listaCompras));
+  localStorage.setItem('nutrialfaro_stats', JSON.stringify(stats));
+}
+
+// ===== UTILS =====
+function getEstado(p) {
+  if (p.cantidad <= 0) return "agotado";
+  if (p.categoria === "esenciales" && p.cantidad <= 2) return "bajo";
+  if (p.cantidad <= 1) return "bajo";
+  return "ok";
+}
+
+function getMensaje(nombre) {
+  const msgs = MENSAJES[nombre];
+  if (!msgs) return "¡Buena elección! Este producto es oro puro 👌";
+  return msgs[Math.floor(Math.random() * msgs.length)];
+}
+
+function showToast(msg, duration=3000) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+function spawnConfetti(x, y) {
+  const colors = ['#34c759', '#007aff', '#ff9500', '#ff3b30', '#af52de', '#5856d6'];
+  for (let i = 0; i < 12; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti';
+    el.style.left = (x + (Math.random()-0.5)*60) + 'px';
+    el.style.top = (y + (Math.random()-0.5)*30) + 'px';
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1000);
+  }
+}
+
+// ===== NAV =====
+function showView(v) {
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-' + v).classList.add('active');
+  document.getElementById('tab-' + v).classList.add('active');
+  if (v === 'despensa') renderDespensa();
+  if (v === 'compras') renderCompras();
+  if (v === 'recetas') renderRecetas();
+  if (v === 'dashboard') renderDashboard();
+}
+
+// ===== DASHBOARD =====
+function renderDashboard() {
+  const total = productos.length;
+  const bajos = productos.filter(p => getEstado(p) === 'bajo').length;
+  const agotados = productos.filter(p => getEstado(p) === 'agotado').length;
+  const ok = total - bajos - agotados;
+  const pct = total === 0 ? 0 : Math.round((ok / total) * 100);
+  
+  document.getElementById('dash-total').textContent = total;
+  document.getElementById('dash-bajos').textContent = bajos;
+  document.getElementById('dash-agotados').textContent = agotados;
+  document.getElementById('dash-racha').textContent = '🔥' + stats.racha;
+  document.getElementById('dash-nivel').textContent = '⭐' + stats.nivel;
+  
+  const bar = document.getElementById('health-bar');
+  bar.style.width = pct + '%';
+  bar.style.background = pct > 70 ? 'var(--positive)' : pct > 40 ? 'var(--warning)' : 'var(--danger)';
+  document.getElementById('health-text').textContent = pct > 80 ? 'Excelente 🌟' : pct > 50 ? 'Regular ⚡' : '¡Necesita atención! 🚨';
+  
+  const alerts = document.getElementById('dash-alerts');
+  const criticos = productos.filter(p => getEstado(p) !== 'ok');
+  if (criticos.length === 0) {
+    alerts.innerHTML = '<div class="critical-alert success"><span>🎉</span><div><div>¡Todo bajo control!</div><small>La despensa Alfaro está en perfecto estado</small></div></div>';
+  } else {
+    alerts.innerHTML = criticos.slice(0, 3).map(p => {
+      const e = getEstado(p);
+      const cls = e === 'agotado' ? 'danger' : 'warning';
+      return `<div class="critical-alert ${cls}"><span>${e==='agotado'?'🚨':'⚠️'}</span><div><div>${p.nombre} ${e==='agotado'?'agotado':'se está acabando'}</div><small>${p.esencial?'Esencial del hogar':'Producto regular'} • ${p.cantidad} ${p.unidad}</small></div></div>`;
+    }).join('');
+  }
+}
+
+// ===== DESPENSA =====
+function renderDespensa() {
+  const cats = {
+    esenciales: { icon: "🥘", name: "Esenciales" },
+    agua: { icon: "💧", name: "Agua" },
+    frescos: { icon: "🥬", name: "Frescos" },
+    hogar: { icon: "🧼", name: "Hogar" },
+    otros: { icon: "🍿", name: "Otros" }
+  };
+  
+  let html = '';
+  for (const [key, info] of Object.entries(cats)) {
+    const items = productos.filter(p => p.categoria === key);
+    if (items.length === 0) continue;
+    html += `<div class="category-section">
+      <div class="category-header">
+        <div class="category-title"><span>${info.icon}</span>${info.name}</div>
+        <span class="category-count">${items.length}</span>
+      </div>
+      <div class="product-grid">`;
+    items.forEach(p => {
+      const est = getEstado(p);
+      const cls = est === 'agotado' ? 'agotado' : est === 'bajo' ? 'bajo' : '';
+      const statusCls = est === 'agotado' ? 'status-agotado' : est === 'bajo' ? 'status-bajo' : 'status-ok';
+      html += `<div class="product-card ${cls}" onclick="showProductMsg('${p.nombre}', event)">
+        <div class="product-status ${statusCls}"></div>
+        <span class="product-emoji">${p.emoji}</span>
+        <div class="product-name">${p.nombre}</div>
+        <div class="product-qty">${p.cantidad} ${p.unidad}</div>
+        <div class="product-actions" onclick="event.stopPropagation()">
+          <button class="btn-icon" onclick="changeQty(${p.id},-1, event)">−</button>
+          <button class="btn-icon" onclick="changeQty(${p.id},1, event)">+</button>
+          <button class="btn-icon btn-cart" onclick="addToCart(${p.id}, event)">🛒</button>
+        </div>
+      </div>`;
+    });
+    html += '</div></div>';
+  }
+  document.getElementById('despensa-content').innerHTML = html;
+}
+
+function showProductMsg(nombre, e) {
+  if (e) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    spawnConfetti(rect.left + rect.width/2, rect.top + rect.height/2);
+  }
+  showToast(getMensaje(nombre));
+}
+
+function changeQty(id, delta, e) {
+  if (e) { const rect = e.target.getBoundingClientRect(); spawnConfetti(rect.left+14, rect.top+14); }
+  const p = productos.find(x => x.id === id);
+  if (!p) return;
+  p.cantidad = Math.max(0, p.cantidad + delta);
+  const est = getEstado(p);
+  if (est === 'agotado' && !listaCompras.includes(id)) {
+    listaCompras.push(id);
+    showToast(`🚨 ${p.nombre} se agotó y fue añadido a la lista`);
+  } else if (est === 'bajo') {
+    showToast(`⚠️ ${p.nombre} se está acabando (${p.cantidad} ${p.unidad})`);
+  } else {
+    showToast(`${p.emoji} ${p.nombre}: ${p.cantidad} ${p.unidad}`);
+  }
+  stats.productosGestionados++;
+  if (stats.productosGestionados % 20 === 0) stats.nivel++;
+  saveData();
+  renderDespensa();
+  updateBadge();
+}
+
+function addToCart(id, e) {
+  if (e) { const rect = e.target.getBoundingClientRect(); spawnConfetti(rect.left+14, rect.top+14); }
+  if (!listaCompras.includes(id)) {
+    listaCompras.push(id);
+    const p = productos.find(x => x.id === id);
+    showToast(`🛒 ${p.nombre} añadido a la lista de compras`);
+    saveData();
+    updateBadge();
+  } else {
+    showToast('Ya está en la lista de compras');
+  }
+}
+
+function updateBadge() {
+  const b = document.getElementById('badge-compras');
+  if (listaCompras.length > 0) { b.textContent = listaCompras.length; b.style.display = 'flex'; }
+  else b.style.display = 'none';
+}
+
+// ===== COMPRAS =====
+function renderCompras() {
+  const container = document.getElementById('compras-content');
+  const btn = document.getElementById('btn-share');
+  if (listaCompras.length === 0) {
+    container.innerHTML = '<div class="empty-state"><span>🎉</span><p>¡No hay nada en la lista!<br>La despensa está completa.</p></div>';
+    btn.style.display = 'none';
+    return;
+  }
+  btn.style.display = 'flex';
+  container.innerHTML = listaCompras.map(id => {
+    const p = productos.find(x => x.id === id);
+    if (!p) return '';
+    const est = getEstado(p);
+    const checked = p.cantidad > 2 ? 'checked' : '';
+    const priClass = p.esencial ? 'priority-esencial' : 'priority-normal';
+    const priText = p.esencial ? 'ESENCIAL' : 'REGULAR';
+    return `<div class="shop-item ${checked}">
+      <div class="shop-check ${checked}" onclick="toggleCheck(${p.id}, event)"></div>
+      <div class="shop-info">
+        <div class="shop-name">${p.emoji} ${p.nombre}</div>
+        <div class="shop-meta">Faltan: ${Math.max(0, 3 - p.cantidad)} ${p.unidad} • Actual: ${p.cantidad}</div>
+      </div>
+      <span class="shop-priority ${priClass}">${priText}</span>
+      <button class="btn-icon btn-danger" onclick="removeFromCart(${p.id}, event)" style="opacity:1;">🗑️</button>
+    </div>`;
+  }).join('');
+}
+
+function toggleCheck(id, e) {
+  if (e) { const rect = e.target.getBoundingClientRect(); spawnConfetti(rect.left+12, rect.top+12); }
+  const p = productos.find(x => x.id === id);
+  if (p.cantidad <= 2) {
+    p.cantidad += 3;
+    showToast(`✅ ${p.nombre} reabastecido (+3 ${p.unidad})`);
+    if (p.cantidad > 2) {
+      listaCompras = listaCompras.filter(x => x !== id);
+      saveData();
+    }
+  }
+  renderCompras();
+  updateBadge();
+}
+
+function removeFromCart(id, e) {
+  if (e) { const rect = e.target.getBoundingClientRect(); spawnConfetti(rect.left+14, rect.top+14); }
+  listaCompras = listaCompras.filter(x => x !== id);
+  saveData();
+  renderCompras();
+  updateBadge();
+}
+
+// ===== SHARE =====
+function openShareModal() {
+  const preview = document.getElementById('share-preview');
+  const items = listaCompras.map(id => {
+    const p = productos.find(x => x.id === id);
+    return p ? `<div class="share-item">${p.emoji} ${p.nombre} (${p.unidad}) ${p.esencial?'• Esencial':''}</div>` : '';
+  }).join('');
+  const date = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  preview.innerHTML = `<h3>📝 Lista del ${date}</h3>${items}<div class="share-footer">Generado con 💚 por NutriAlfaro<br>Familia Alfaro Sánchez</div>`;
+  document.getElementById('modal-share').classList.add('show');
+}
+
+function closeShareModal() {
+  document.getElementById('modal-share').classList.remove('show');
+}
+
+// ===== ADD PRODUCT =====
+function openAddModal() {
+  document.getElementById('modal-add').classList.add('show');
+  setTimeout(() => document.getElementById('add-nombre').focus(), 100);
+}
+
+function closeAddModal() {
+  document.getElementById('modal-add').classList.remove('show');
+  document.getElementById('add-nombre').value = '';
+  document.getElementById('add-cantidad').value = '1';
+  document.getElementById('add-esencial').checked = false;
+}
+
+function addProduct() {
+  const nombre = document.getElementById('add-nombre').value.trim();
+  const cat = document.getElementById('add-categoria').value;
+  const cant = parseInt(document.getElementById('add-cantidad').value) || 1;
+  const unidad = document.getElementById('add-unidad').value.trim() || 'pz';
+  const esencial = document.getElementById('add-esencial').checked;
+  if (!nombre) { showToast('Escribe un nombre para el producto'); return; }
+  
+  const emojis = { esenciales: "🥘", agua: "💧", frescos: "🥬", hogar: "🧼", otros: "🍿" };
+  productos.push({ id: nextId++, nombre, categoria: cat, cantidad: cant, unidad, esencial, emoji: emojis[cat] || "📦" });
+  showToast(`✅ ${nombre} agregado a la despensa`);
+  closeAddModal();
+  saveData();
+  renderDespensa();
+  renderDashboard();
+}
+
+// ===== RECETAS =====
+function renderRecetas() {
+  const disponibles = new Set(productos.filter(p => getEstado(p) === 'ok').map(p => p.nombre));
+  const container = document.getElementById('recetas-content');
+  
+  const posibles = RECETAS.filter(r => r.ingredientes.some(ing => disponibles.has(ing)));
+  
+  if (posibles.length === 0) {
+    container.innerHTML = '<div class="empty-state"><span>👨‍🍳</span><p>Chef Alfaro necesita más ingredientes<br>¡Reabastece la despensa!</p></div>';
+    return;
+  }
+  
+  container.innerHTML = posibles.map(r => {
+    const tiene = r.ingredientes.filter(ing => disponibles.has(ing));
+    const falta = r.ingredientes.filter(ing => !disponibles.has(ing));
+    return `<div class="recipe-card" onclick="showToast('${getMensaje(tiene[0]||'Arroz')}')">
+      <div class="recipe-title">${r.emoji} ${r.nombre}</div>
+      <div class="recipe-desc">${r.desc}</div>
+      <div class="recipe-tags">
+        <span class="recipe-tag">⏱️ ${r.tiempo}</span>
+        <span class="recipe-tag">📊 ${r.dificultad}</span>
+        <span class="recipe-tag success">✓ ${tiene.length}/${r.ingredientes.length} ingredientes</span>
+        ${falta.length > 0 ? `<span class="recipe-tag warning">Falta: ${falta.join(', ')}</span>` : '<span class="recipe-tag success">¡Lista para cocinar!</span>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== INIT =====
+initData();
+renderDashboard();
+updateBadge();
+</script>
+</body>
+</html>
+```
